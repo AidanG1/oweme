@@ -9,7 +9,298 @@ export type Json =
 export type Database = {
   public: {
     Tables: {
-      [_ in never]: never
+      friends: {
+        Row: {
+          accepted: boolean
+          created_at: string
+          friend_1: string
+          friend_2: string
+          id: string
+        }
+        Insert: {
+          accepted: boolean
+          created_at?: string
+          friend_1: string
+          friend_2: string
+          id?: string
+        }
+        Update: {
+          accepted?: boolean
+          created_at?: string
+          friend_1?: string
+          friend_2?: string
+          id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "friends_friend_1_fkey"
+            columns: ["friend_1"]
+            isOneToOne: false
+            referencedRelation: "users"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "friends_friend_2_fkey"
+            columns: ["friend_2"]
+            isOneToOne: false
+            referencedRelation: "users"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      item_user: {
+        Row: {
+          amount_basis_points: number
+          created_at: string
+          email: string
+          id: string
+          item: string
+        }
+        Insert: {
+          amount_basis_points: number
+          created_at?: string
+          email: string
+          id?: string
+          item: string
+        }
+        Update: {
+          amount_basis_points?: number
+          created_at?: string
+          email?: string
+          id?: string
+          item?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "item_user_item_fkey"
+            columns: ["item"]
+            isOneToOne: false
+            referencedRelation: "items"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      items: {
+        Row: {
+          amount_cents: number
+          created_at: string
+          id: string
+          name: string
+          transaction: string
+        }
+        Insert: {
+          amount_cents: number
+          created_at?: string
+          id?: string
+          name: string
+          transaction: string
+        }
+        Update: {
+          amount_cents?: number
+          created_at?: string
+          id?: string
+          name?: string
+          transaction?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "transaction_items_transaction_fkey"
+            columns: ["transaction"]
+            isOneToOne: false
+            referencedRelation: "transactions"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      owed: {
+        Row: {
+          amount_cents: number
+          created_at: string
+          email: string
+          id: string
+          ower: string | null
+          paid: boolean
+          transaction: string
+        }
+        Insert: {
+          amount_cents: number
+          created_at?: string
+          email: string
+          id?: string
+          ower?: string | null
+          paid?: boolean
+          transaction: string
+        }
+        Update: {
+          amount_cents?: number
+          created_at?: string
+          email?: string
+          id?: string
+          ower?: string | null
+          paid?: boolean
+          transaction?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "owed_ower_fkey"
+            columns: ["ower"]
+            isOneToOne: false
+            referencedRelation: "users"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "owed_transaction_fkey"
+            columns: ["transaction"]
+            isOneToOne: false
+            referencedRelation: "transactions"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      payments: {
+        Row: {
+          amount_cents: number
+          created_at: string
+          id: string
+          receiver: string
+          sender: string
+        }
+        Insert: {
+          amount_cents: number
+          created_at?: string
+          id?: string
+          receiver: string
+          sender: string
+        }
+        Update: {
+          amount_cents?: number
+          created_at?: string
+          id?: string
+          receiver?: string
+          sender?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "payments_receiver_fkey"
+            columns: ["receiver"]
+            isOneToOne: false
+            referencedRelation: "users"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "payments_sender_fkey"
+            columns: ["sender"]
+            isOneToOne: false
+            referencedRelation: "users"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      profiles: {
+        Row: {
+          id: string
+          name: string | null
+          updated_at: string | null
+          venmo: string | null
+        }
+        Insert: {
+          id: string
+          name?: string | null
+          updated_at?: string | null
+          venmo?: string | null
+        }
+        Update: {
+          id?: string
+          name?: string | null
+          updated_at?: string | null
+          venmo?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "profiles_id_fkey"
+            columns: ["id"]
+            isOneToOne: true
+            referencedRelation: "users"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      receipts: {
+        Row: {
+          created_at: string
+          id: string
+          name: string | null
+          ordered_time: string | null
+          subtotal_cents: number | null
+          tax_cents: number | null
+          tip_cents: number | null
+          total_cents: number | null
+          transaction: string
+          url: string | null
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          name?: string | null
+          ordered_time?: string | null
+          subtotal_cents?: number | null
+          tax_cents?: number | null
+          tip_cents?: number | null
+          total_cents?: number | null
+          transaction: string
+          url?: string | null
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          name?: string | null
+          ordered_time?: string | null
+          subtotal_cents?: number | null
+          tax_cents?: number | null
+          tip_cents?: number | null
+          total_cents?: number | null
+          transaction?: string
+          url?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "receipts_transaction_fkey"
+            columns: ["transaction"]
+            isOneToOne: false
+            referencedRelation: "transactions"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      transactions: {
+        Row: {
+          created_at: string
+          id: string
+          name: string
+          payer: string
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          name: string
+          payer: string
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          name?: string
+          payer?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "transactions_payer_fkey"
+            columns: ["payer"]
+            isOneToOne: false
+            referencedRelation: "users"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
     }
     Views: {
       [_ in never]: never
