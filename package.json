@@ -36,6 +36,7 @@
 	"type": "module",
 	"dependencies": {
 		"@capacitor/android": "^6.1.2",
+		"@capacitor/camera": "^6.0.2",
 		"@capacitor/cli": "^6.1.2",
 		"@capacitor/core": "^6.1.2",
 		"@capacitor/ios": "^6.1.2",
@@ -44,6 +45,7 @@
 		"clsx": "^2.1.1",
 		"lucide-svelte": "^0.445.0",
 		"tailwind-merge": "^2.5.2",
-		"tailwind-variants": "^0.2.1"
+		"tailwind-variants": "^0.2.1",
+		"vaul-svelte": "^0.3.2"
 	}
 }
