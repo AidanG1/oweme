@@ -24,6 +24,9 @@
 			return
 		}
 
+		console.log('submitting transaction')
+		console.log(sesh.session)
+
 		// verify that all items have a name and price
 		for (let i = 0; i < items.length; i++) {
 			if (!items[i].name || !items[i].price) {
