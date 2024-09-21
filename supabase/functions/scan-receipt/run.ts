@@ -1,6 +1,6 @@
-import { GoogleGenerativeAI, SchemaType } from 'https://esm.sh/@google/generative-ai@0.12.0'
+import { GoogleGenerativeAI, SchemaType } from 'https://esm.sh/@google/generative-ai@0.19.0'
 // import { GoogleAIFileManager } from "@google/generative-ai/server";
-import { GoogleAIFileManager } from 'https://esm.sh/@google/generative-ai@0.12.0/server'
+import { GoogleAIFileManager } from 'https://esm.sh/@google/generative-ai@0.19.0/server'
 
 interface Item {
     ocr_name: string
