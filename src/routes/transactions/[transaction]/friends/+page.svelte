@@ -22,6 +22,6 @@
 <!-- Display friends list -->
 {#if data.friends}
     {#each data.friends as row}
-        <div>{row.friend1.email}</div>
+        <div>{row.friend_1.email}</div>
     {/each}
 {/if}
