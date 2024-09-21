@@ -27,7 +27,7 @@
 
 			if (error) throw error
 			alertHeader = 'Check your email'
-			alertMessage = 'PitchParty sent you a link to sign in'
+			alertMessage = 'OweMe sent you a link to sign in'
 			show_alert = true
 			pinShowing = true
 			loading = false
@@ -40,7 +40,7 @@
 				})
 				if (error) throw error
 				alertHeader = 'Check your email'
-				alertMessage = 'PitchParty sent you a link to sign in'
+				alertMessage = 'OweMe sent you a link to sign in'
 				show_alert = true
 				pinShowing = true
 			} catch (error) {
