@@ -1,4 +1,4 @@
-# OweMe
+# OweMe 💴💶💷💵
 Your personal expense mediator.
 
 **Split Bills, not Friendships**
@@ -10,4 +10,5 @@ OweMe takes the awkwardness out of shared expenses. Easily track, split, and set
 - Nat Hill 
 - Franklin Dai
 - Yimo Wang
+
 for [HackRice14](https://hackrice14.devpost.com/)
