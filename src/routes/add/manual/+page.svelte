@@ -2,13 +2,14 @@
 	import { Button } from '$lib/components/ui/button'
 	import { Input } from '$lib/components/ui/input'
 	import { Label } from '$lib/components/ui/label'
+	import { Plus } from 'lucide-svelte'
 
 	interface Item {
 		name?: string
 		price?: number
 	}
 
-	let items: Item[] = $state([])
+	let items: Item[] = $state([{name: "abc" ,price: 123} as Item])
 </script>
 
 <div>
@@ -24,5 +25,5 @@
 			</div>
 		</form>
 	{/each}
-	<Button class="" on:click={() => {}}>+</Button>
+	<Button class="" on:click={() => {items.push({name: ""} as Item)}}><Plus /></Button>
 </div>
