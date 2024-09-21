@@ -1,8 +1,9 @@
 <script lang="ts">
 	import Feedcard from '$lib/components/feedcard.svelte'
-	import { Input } from '$lib/components/ui/input/index.js'
+	import * as Command from '$lib/components/ui/command/index.js'
 	import { Label } from '$lib/components/ui/label/index.js'
 	import { Switch } from '$lib/components/ui/switch/index.js'
+	import { Users } from 'lucide-svelte'
 
 	// let { data } = $props()
 	let oneDayAgo = new Date()
@@ -54,11 +55,13 @@
 </script>
 
 <main>
-	<div class="flex flex-row justify-between">
-		<Input type="search" class="m-5 w-72" />
+	<div class="m-5 flex flex-row justify-between">
+		<Command.Root class="mr-5 w-72 rounded-md border">
+			<Command.Input placeholder="Search for transaction..." />
+		</Command.Root>
 		<div class="flex items-center space-x-2">
 			<Switch id="airplane-mode" />
-			<Label for="airplane-mode">Friends Feed</Label>
+			<Label for="airplane-mode"><Users /></Label>
 		</div>
 	</div>
 

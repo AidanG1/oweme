@@ -23,7 +23,7 @@
 	})
 </script>
 
-<div class={divClass}>
+<div class={divClass}> 
 	<Avatar.Root>
 		<Avatar.Image src="https://github.com/shadcn.png" alt="shadcn img" />
 		<Avatar.Fallback>CN</Avatar.Fallback>
