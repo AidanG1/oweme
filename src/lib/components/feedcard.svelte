@@ -2,7 +2,7 @@
 	import * as Avatar from '$lib/components/ui/avatar'
 	import { Separator } from '$lib/components/ui/separator'
 
-	interface MyProps {
+	interface FeedCardProps {
 		name: string
 		description: string
 		time: Date
@@ -10,7 +10,7 @@
 		incoming: boolean
 		resolved: boolean
 	}
-	let { name, description, time, price, incoming, resolved }: MyProps = $props()
+	let { name, description, time, price, incoming, resolved }: FeedCardProps = $props()
 	let divClass: string
 	if (resolved) {
 		divClass = 'flex flex-row opacity-50'
@@ -21,9 +21,10 @@
 		day: 'numeric',
 		month: 'short'
 	})
+	price = Number(price).toFixed(2)
 </script>
 
-<div class={divClass}> 
+<div class={divClass}>
 	<Avatar.Root>
 		<Avatar.Image src="https://github.com/shadcn.png" alt="shadcn img" />
 		<Avatar.Fallback>CN</Avatar.Fallback>

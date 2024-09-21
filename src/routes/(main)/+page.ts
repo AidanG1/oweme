@@ -4,10 +4,11 @@ import { error as SKerror } from '@sveltejs/kit'
 
 export async function load({ params }) {
 	const session = await sesh.forceGetSession()
-
+	const id = session?.user.id
 	const email = session?.user.email
+	// const name = session?.user.name
 
-	if (!email) {
+	if (!email || !id) {
 		SKerror(401, 'Unauthorized')
 	}
 	/**
@@ -18,26 +19,25 @@ export async function load({ params }) {
 		.select(
 			`email, amount_basis_points, item (
                 id, created_at, name, amount_cents, transaction (
-                    name, payer (
-                        id, email, profile (
-                            name
-                        )
+                    name, created_at, payer (
+                        id, email, name
                     )
                 )
             )`
 		)
 		.eq('email', email)
 
+	/** These get the ones where people owe them money */
 	const { data: payerData, error: payerError } = await supabase
-		.from('transactions')
+		.from('item_user')
 		.select(
-			`name, items (
-					name, amount_cents, item_user (
-						email, amount_basis_points
-					)
-				)`
+			`email, amount_basis_points, item!inner (
+				name, amount_cents, transaction!inner (
+					name, payer, created_at
+				)
+			) `
 		)
-		.eq('payer.email', email)
+		.eq('item.transaction.payer', id)
 
 	if (error) {
 		SKerror(500, "ower: " + error.message)
