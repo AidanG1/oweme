@@ -1,5 +1,5 @@
 <script lang="ts">
-	import '../App.css'
+	import '../app.css'
 	import '@fontsource-variable/inter';
 </script>
 

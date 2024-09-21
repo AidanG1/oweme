@@ -40,11 +40,11 @@ export async function load({ params }) {
 		.eq('payer.email', email)
 
 	if (error) {
-		SKerror(500, error.message)
+		SKerror(500, "ower: " + error.message)
 	}
 
 	if (payerError) {
-		SKerror(500, payerError.message)
+		SKerror(500, "payer: " + payerError.message)
 	}
 
 	return {
