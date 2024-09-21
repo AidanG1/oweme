@@ -36,7 +36,7 @@
 				loading = true
 				const { error } = await supabase.auth.signInWithOtp({
 					email,
-					options: { emailRedirectTo: window.location.origin + '/account' }
+					options: { emailRedirectTo: window.location.origin + '/' }
 				})
 				if (error) throw error
 				alertHeader = 'Check your email'
@@ -119,7 +119,7 @@
 					alertMessage = error.message
 					show_alert = true
 				} else {
-					goto('/account')
+					goto('/')
 				}
 			}}
 		>

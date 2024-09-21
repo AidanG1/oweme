@@ -1,1 +1,0 @@
-<!-- this page is for accepted friends -->

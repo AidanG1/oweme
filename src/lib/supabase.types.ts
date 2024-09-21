@@ -36,14 +36,14 @@ export type Database = {
             foreignKeyName: "friends_friend_1_fkey"
             columns: ["friend_1"]
             isOneToOne: false
-            referencedRelation: "users"
+            referencedRelation: "profiles"
             referencedColumns: ["id"]
           },
           {
             foreignKeyName: "friends_friend_2_fkey"
             columns: ["friend_2"]
             isOneToOne: false
-            referencedRelation: "users"
+            referencedRelation: "profiles"
             referencedColumns: ["id"]
           },
         ]
@@ -181,35 +181,38 @@ export type Database = {
         }
         Relationships: [
           {
-            foreignKeyName: "payments_receiver_fkey"
+            foreignKeyName: "payments_receiver_fkey1"
             columns: ["receiver"]
             isOneToOne: false
-            referencedRelation: "users"
+            referencedRelation: "profiles"
             referencedColumns: ["id"]
           },
           {
-            foreignKeyName: "payments_sender_fkey"
+            foreignKeyName: "payments_sender_fkey1"
             columns: ["sender"]
             isOneToOne: false
-            referencedRelation: "users"
+            referencedRelation: "profiles"
             referencedColumns: ["id"]
           },
         ]
       }
       profiles: {
         Row: {
+          email: string
           id: string
           name: string | null
           updated_at: string | null
           venmo: string | null
         }
         Insert: {
+          email?: string
           id: string
           name?: string | null
           updated_at?: string | null
           venmo?: string | null
         }
         Update: {
+          email?: string
           id?: string
           name?: string | null
           updated_at?: string | null
@@ -293,10 +296,10 @@ export type Database = {
         }
         Relationships: [
           {
-            foreignKeyName: "transactions_payer_fkey"
+            foreignKeyName: "transactions_payer_fkey1"
             columns: ["payer"]
             isOneToOne: false
-            referencedRelation: "users"
+            referencedRelation: "profiles"
             referencedColumns: ["id"]
           },
         ]

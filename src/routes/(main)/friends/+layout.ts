@@ -8,8 +8,8 @@ export const load = async () => {
 
     const { data, error } = await supabase
         .from('friends')
-        .select(`friend_1 (id, venmo, name, auth.users (email)),
-        friend_2 (id, venmo, name, auth.users (email))
+        .select(`friend_1 (id, venmo, name, email),
+                friend_2 (id, venmo, name, email)
         `)
         .or(`friend_1.eq.${sesh.session?.user.id},friend_2.eq.${sesh.session?.user.id}`)
         .eq('accepted', true)
