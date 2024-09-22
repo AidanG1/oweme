@@ -20,8 +20,12 @@
 
 
 <!-- Display friends list -->
+FRIENDS LIST
 {#if data.friends}
     {#each data.friends as row}
         <div>{row.friend_1.email}</div>
     {/each}
 {/if}
+
+<!-- Display friends selected -->
+FRIENDS SELECTED

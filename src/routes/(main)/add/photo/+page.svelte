@@ -108,12 +108,55 @@
 
 		console.log('done')
 	}
+
+	import { Camera, CameraResultType } from '@capacitor/camera'
+	import { onMount } from 'svelte'
+	import { ChevronRight } from 'lucide-svelte'
+
+	const takePicture = async () => {
+		const image = await Camera.getPhoto({
+			quality: 90,
+			allowEditing: true,
+			resultType: CameraResultType.Uri
+		})
+
+		// image.webPath will contain a path that can be set as an image src.
+		// You can access the original file using image.path, which can be
+		// passed to the Filesystem API to read the raw data of the image,
+		// if desired (or pass resultType: CameraResultType.Base64 to getPhoto)
+		var imageUrl = image.webPath
+
+		// Can be set to the src of an image now
+		$chosenPhoto = imageUrl ?? ''
+
+		// also want to close the camera
+		// await Camera.close()
+	}
+
+	onMount(() => {
+		if (!$chosenPhoto) {
+			takePicture()
+		}
+	})
 </script>
 
-{#if $chosenPhoto}
-	<img src={$chosenPhoto} alt="chosen" />
-{:else}
-	<p class="text-red-500">No photo chosen</p>
-{/if}
-
-<Button on:click={() => {}}>Submit picture</Button>
+<div class="h-[84vh] flex justify-center flex-col">
+	<div class="flex-grow">
+		{#if $chosenPhoto}
+			<!-- we need to set the chosen photo -->
+			<Button on:click={takePicture}>Retake picture</Button>
+			<img src={$chosenPhoto} alt="chosen" />
+		{:else}
+			<p class="text-red-500">No photo chosen</p>
+			<Button on:click={takePicture}>Take picture</Button>
+		{/if}
+	</div>
+	<div class="flex justify-center">
+		<Button
+			on:click={submitPhoto}
+			class="bg-transparent text-2xl font-bold text-primary hover:text-white"
+		>
+			Submit picture <ChevronRight />
+		</Button>
+	</div>
+</div>

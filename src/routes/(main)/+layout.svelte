@@ -1,12 +1,14 @@
 <script lang="ts">
-	import * as Menubar from '$lib/components/ui/menubar/index.js'
 	import { Separator } from '$lib/components/ui/separator/index.js'
-	import { Contact, House, Settings, SquarePlus } from 'lucide-svelte'
-	
+	import * as Menubar from '$lib/components/ui/menubar/index.js'
+	import Contact from 'lucide-svelte/icons/contact'
+	import House from 'lucide-svelte/icons/house'
+	import SquarePlus from 'lucide-svelte/icons/square-plus'
+	import Settings from '$lib/components/Settings.svelte'
 
-	let handleClick = () => {
-		console.log('clicked')
-	}
+	import { profile } from '$lib/auth.svelte'
+
+	let { data } = $props()
 </script>
 
 <slot></slot>
@@ -14,27 +16,22 @@
 	<Menubar.Root
 		class="fixed bottom-0 left-0 right-0 flex h-20 justify-between rounded-none border-l-0 border-r-0 border-t-2"
 	>
-		<div class="container mx-auto flex h-3/4 w-full max-w-[435px] justify-between">
+		<div class="container mx-auto flex w-full max-w-[435px] justify-between">
 			<a href="/" class="my-auto"><House /></a>
-			<!-- <Menubar.Menu>
-			<div>File</div>
-			<Menubar.Trigger>File</Menubar.Trigger> -->
-			<!-- </Menubar.Menu> -->
 			<Separator orientation="vertical" />
-			<!-- </Menubar.Separator> -->
-			<!-- <Menubar.SeparatorVertical></Menubar.SeparatorVertical> -->
 			<Menubar.Menu>
 				<Menubar.Trigger class="font-sans"><SquarePlus /></Menubar.Trigger>
 				<Menubar.Content>
-					<Menubar.Item><a href="/receipt/manual">Input Manually</a></Menubar.Item>
+					<Menubar.Item><a href="/add/manual">Input Manually</a></Menubar.Item>
 					<Menubar.Separator />
-					<Menubar.Item><a href="/receipt/upload">Upload from Photo</a></Menubar.Item>
+					<Menubar.Item><a href="/add/photo">Upload from Photo</a></Menubar.Item>
 				</Menubar.Content>
 			</Menubar.Menu>
 			<Separator orientation="vertical" />
-			<a href="/social" class="my-auto"><Contact /></a>
+			<a href="/friends" class="my-auto"><Contact /></a>
 			<Separator orientation="vertical" />
-			<a href="/settings" class="my-auto"><Settings /></a>
+			<!-- open the sheet -->
+			<span class="my-auto"><Settings {profile} /></span>
 		</div>
 	</Menubar.Root>
 </nav>

@@ -64,7 +64,7 @@
 </script>
 
 <div class="h-1/4"></div>
-<h1 class="m-16 text-center text-4xl">Log In</h1>
+<h1 class="m-16 text-center text-4xl">OweMe Log In</h1>
 
 {#if show_alert}
 	<Alert.Root variant={alertHeader === 'Error' ? 'destructive' : 'default'} class="m-6 w-96">
@@ -128,23 +128,25 @@
 	</form>
 {/if}
 {#if !pinShowing}
-	<div class="m-6 flex w-96 justify-center">
-		<form onsubmit={handleLogin} class="w-full">
-			<Label for="email">Email Address</Label>
-			<Input
-				type="email"
-				placeholder="Enter email address"
-				class="my-2 w-full"
-				bind:value={email}
-				id="email"
-			/>
-			<Button variant="outline" type="submit" disabled={loading || !email} class="w-full">
-				{#if loading}
-					<LoaderCircle class="mr-2 h-4 w-4" />
-				{:else}
-					<Mail class="mr-2 h-4 w-4" /> Sign up or log in
-				{/if}
-			</Button>
-		</form>
+	<div class="flex justify-center">
+		<div class="flex w-96 justify-center p-6">
+			<form onsubmit={handleLogin} class="w-full">
+				<Label for="email">Email Address</Label>
+				<Input
+					type="email"
+					placeholder="Enter email address"
+					class="my-2 w-full"
+					bind:value={email}
+					id="email"
+				/>
+				<Button variant="outline" type="submit" disabled={loading || !email} class="w-full">
+					{#if loading}
+						<LoaderCircle class="mr-2 h-4 w-4" />
+					{:else}
+						<Mail class="mr-2 h-4 w-4" /> Sign up or log in
+					{/if}
+				</Button>
+			</form>
+		</div>
 	</div>
 {/if}
