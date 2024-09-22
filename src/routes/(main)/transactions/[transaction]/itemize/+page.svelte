@@ -100,6 +100,18 @@
 			console.error(errorData)
 			return
 		}
+
+		// now that item users are inserted adding up to the full amount, we want to update the transaction to be completed
+		const { data: transactionData, error: transactionError } = await supabase
+			.from('transactions')
+			.update({ completed: true })
+			.eq('id', data.transaction_id)
+			.select()
+
+		if (transactionError) {
+			console.error(transactionError)
+			return
+		}
 	}
 
 	let api: CarouselAPI | undefined = $state()
@@ -172,7 +184,7 @@
 				for="items-label-{i}"
 				class="text-md font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
 			>
-				{item.name}
+				{item.name}, ${item.amount_cents / 100}
 			</Label>
 		</div>
 		<!-- this is the most disgusting thing i've done in my life -->
