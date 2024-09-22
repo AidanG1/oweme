@@ -9,18 +9,12 @@
 	import { Progress } from '$lib/components/ui/progress/index.js'
 	import { Separator } from '$lib/components/ui/separator/index.js'
 	import { supabase } from '$lib/db'
-	import { selectedEmails } from '$lib/stores.svelte'
 
 	let { data } = $props()
 
 	const transaction_id = data.transaction_id
 
 	const items = data.items
-
-	interface OwerActivity {
-		email: string
-		name?: string
-	}
 
 	interface PersonAmount {
 		email: string
@@ -54,14 +48,7 @@
 	)
 
 	let owers_idx = 0
-	let owers: OwerActivity[] = $state(
-		$selectedEmails.map((e) => {
-			return {
-				email: e.email,
-				name: e.name
-			}
-		})
-	)
+	let owers = $state(data.transaction.selected_emails)
 
 	const submit_itemization = async () => {
 		console.log('submitting itemization')
@@ -116,7 +103,7 @@
 			return
 		}
 
-		goto(`transactions/${transaction_id}/total`)
+		goto(`/transactions/${transaction_id}/total`)
 	}
 
 	let api: CarouselAPI | undefined = $state()
@@ -135,7 +122,7 @@
 			})
 		}
 	})
-	console.log(api?.selectedScrollSnap())
+	// console.log(api?.selectedScrollSnap())
 	console.log(owers)
 	let num_separators = items_split.length - 1
 	let separator_num = 0
@@ -156,7 +143,7 @@
 							<Avatar.Image src="https://github.com/shadcn.png" alt="shadcn img" />
 							<Avatar.Fallback>CN</Avatar.Fallback>
 						</Avatar.Root>
-						<p class="mx-auto">{ower.name ? ower.name : ower.email}</p>
+						<p class="mx-auto">{ower}</p>
 					</div>
 				</Carousel.Content>
 			</Carousel.Item>
@@ -172,13 +159,13 @@
 		<div class="flex w-full gap-1.5">
 			<Checkbox
 				id="items-label-{i}"
-				checked={item.splitters.map((pers) => pers.email).includes(owers[currSelected].email)}
+				checked={item.splitters.map((pers) => pers.email).includes(owers[currSelected])}
 				onCheckedChange={(e) => {
 					if (e) {
-						item.splitters.push({ email: owers[currSelected].email })
+						item.splitters.push({ email: owers[currSelected] })
 					} else {
 						item.splitters = item.splitters.filter(
-							(splitter) => splitter.email !== owers[currSelected].email
+							(splitter) => splitter.email !== owers[currSelected]
 						)
 					}
 				}}

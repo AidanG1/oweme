@@ -4,6 +4,7 @@
 	import FriendCard from '$lib/components/FriendCard.svelte'
 	import { Button } from '$lib/components/ui/button/index'
 	import { Input } from '$lib/components/ui/input'
+	import { supabase } from '$lib/db'
 	import CircleCheck from 'lucide-svelte/icons/circle-check'
 	import { fade } from 'svelte/transition'
 
@@ -43,7 +44,7 @@
 		selected_map = new Map(selected_map)
 	}
 
-	const submitEmails = () => {
+	const submitEmails = async () => {
 		console.log('clicked')
 
 		let emails: string[] = []
@@ -53,6 +54,21 @@
 			}
 		})
 		emails.push(prof?.email)
+
+		// update the transaction with the selected emails
+		const { data, error } = await supabase
+			.from('transactions')
+			.update({ selected_emails: emails })
+			.eq('id', transactionId)
+			.select()
+
+		if (error) {
+			console.error(error)
+			return
+		}
+
+		console.log('updated transaction emails', data)
+
 		goto(`/transactions/${transactionId}/itemize`)
 	}
 </script>
