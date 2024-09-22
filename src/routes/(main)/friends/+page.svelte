@@ -218,7 +218,7 @@
 	$inspect(friends)
 </script>
 
-<div class="mx-5 mb-0 mt-5 flex w-auto flex-row gap-2 align-middle">
+<div class="mx-5 mb-0 mt-5 flex w-auto flex-row gap-2 items-center">
 	<Command.Root>
 		<div class="max-w-80 grow">
 			<Command.Input placeholder="Search for new friends" bind:value={input_email} />
