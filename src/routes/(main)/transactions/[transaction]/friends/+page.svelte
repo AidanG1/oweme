@@ -4,19 +4,20 @@
 	import FriendCard from '$lib/components/FriendCard.svelte'
 	import { Button } from '$lib/components/ui/button/index'
 	import { Input } from '$lib/components/ui/input'
-	import { selectedEmails } from '$lib/stores.svelte'
+	import { selectedEmails, type User } from '$lib/stores.svelte'
 	import CircleCheck from 'lucide-svelte/icons/circle-check'
 	import { fade } from 'svelte/transition'
 
 	let { friendsData, id } = $page.data.props
 	let { data } = $props()
 	let transactionId = data.transaction_id
+	let prof = data.prof
 	// console.log(data.items)
 	// data = data.items
 	console.log('Data!', friendsData)
 
 	// let friends = []
-	let friend_map = new Map()
+	let friend_map: Map<number, {email:string; id:string; name:string}> = new Map()
 	let selected_map = $state(new Map())
 	for (let i = 0; i < friendsData.length; i++) {
 		let pair = friendsData[i]
@@ -31,7 +32,7 @@
 		selected_map.set(friend.id, 0)
 	}
 
-	const handleClick = (id) => {
+	const handleClick = (id: string) => {
 		console.log(id)
 		if (selected_map.get(id) === 1) {
 			selected_map.set(id, 0)
@@ -50,6 +51,8 @@
 				$selectedEmails.push(friend_map.get(k))
 			}
 		})
+		// Push self to selectedEmails
+		$selectedEmails.push({email:prof.email, id:prof.id, name:prof.name} as User)
 		goto(`/transactions/${transactionId}/itemize`)
 	}
 </script>
