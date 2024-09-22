@@ -6,5 +6,8 @@
   "deno.unstable": true,
   "[typescript]": {
     "editor.defaultFormatter": "vscode.typescript-language-features"
-  }
+  },
+  "cSpell.words": [
+    "lucide"
+  ]
 }

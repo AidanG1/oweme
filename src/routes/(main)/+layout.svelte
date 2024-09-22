@@ -1,15 +1,10 @@
 <script lang="ts">
-	import * as Menubar from '$lib/components/ui/menubar/index.js'
 	import { Separator } from '$lib/components/ui/separator/index.js'
+	import * as Menubar from '$lib/components/ui/menubar/index.js'
 	import Contact from 'lucide-svelte/icons/contact'
 	import House from 'lucide-svelte/icons/house'
 	import Settings from 'lucide-svelte/icons/settings'
 	import SquarePlus from 'lucide-svelte/icons/square-plus'
-	
-
-	let handleClick = () => {
-		console.log('clicked')
-	}
 </script>
 
 <slot></slot>
