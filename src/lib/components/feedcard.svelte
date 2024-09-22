@@ -11,7 +11,7 @@
 		resolved: boolean
 	}
 	let { name, description, time, price, incoming, resolved }: FeedCardProps = $props()
-	let divClass: string
+	let divClass: string = $state('')
 	if (resolved) {
 		divClass = 'flex flex-row opacity-50'
 	} else {

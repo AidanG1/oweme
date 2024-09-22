@@ -9,3 +9,5 @@
 		<Tabs.Trigger value="requests"><a href="/friends/requests">Requests</a></Tabs.Trigger>
 	</Tabs.List>
 </Tabs.Root>
+
+<slot></slot>
