@@ -10,6 +10,8 @@
 	})
 </script>
 
-<div>
-	<Auth />
+<div class="flex justify-center">
+	<div>
+		<Auth />
+	</div>
 </div>

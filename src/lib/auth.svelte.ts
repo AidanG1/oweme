@@ -74,9 +74,13 @@ function userProfile() {
 
 		if (error) {
 			console.error(error)
+
+			return null
 		}
 
 		profile = data
+
+		return data
 	}
 
 	async function optionalSetProfile() {

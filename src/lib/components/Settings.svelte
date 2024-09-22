@@ -6,7 +6,7 @@
 	import Settings from 'lucide-svelte/icons/settings'
 	import * as Dialog from '$lib/components/ui/dialog'
 	import { type ProfileUpdate } from '$lib/auth.svelte'
-    import { toasts } from '$lib/toasts.svelte'
+	import { toasts } from '$lib/toasts.svelte'
 
 	let {
 		profile
@@ -16,11 +16,11 @@
 
 	let profileUpdate: ProfileUpdate = {}
 
-    // initially the profile update object to existing profile information
-    profileUpdate = {
-        name: profile.profile?.name || '',
-        venmo: profile.profile?.venmo || ''
-    }
+	// initially the profile update object to existing profile information
+	profileUpdate = {
+		name: profile.profile?.name || '',
+		venmo: profile.profile?.venmo || ''
+	}
 </script>
 
 <!-- edit profile, add your venmo, edit your full name, change your profile picture, logout -->
@@ -50,22 +50,31 @@
 			<Button
 				builders={[builder]}
 				type="submit"
+				class="mb-2 w-full"
 				on:click={() => {
-					profile.updateProfile(profileUpdate)
-                    toasts.addToast({ message: 'Profile updated', type: 'success' })
+					const res = profile.updateProfile(profileUpdate)
+					if (!res) {
+						toasts.addToast({ message: 'Profile update failed', type: 'error' })
+						return
+					} else {
+						toasts.addToast({ message: 'Profile updated', type: 'success' })
+					}
 				}}>Save changes</Button
 			>
 		</Sheet.Close>
 		<Sheet.Footer>
 			<Dialog.Root>
-				<Dialog.Trigger>Logout</Dialog.Trigger>
+				<Dialog.Trigger class="w-full rounded-md border-2 border-red-700 p-2">Logout</Dialog.Trigger
+				>
 				<Dialog.Content>
 					<Dialog.Header>
 						<Dialog.Title>Confirm Logout</Dialog.Title>
 					</Dialog.Header>
+					<Dialog.Footer>
+						<Button variant="destructive" href="/account/logout">Logout</Button>
+					</Dialog.Footer>
 				</Dialog.Content>
 			</Dialog.Root>
-			<Button variant="destructive" href="/account/logout">Logout</Button>
 		</Sheet.Footer>
 	</Sheet.Content>
 </Sheet.Root>
