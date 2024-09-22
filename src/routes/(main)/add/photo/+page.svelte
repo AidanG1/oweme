@@ -92,6 +92,7 @@
 	import { onMount } from 'svelte'
 	import type { Tables } from '$lib/supabase.types'
 	import { goto } from '$app/navigation'
+	import CameraIcon from 'lucide-svelte/icons/camera'
 
 	const takePicture = async () => {
 		const image = await Camera.getPhoto({
@@ -123,13 +124,17 @@
 </script>
 
 <div class="flex h-[84vh] flex-col justify-center">
-	<div class="flex flex-grow flex-col justify-center">
+	<div class="flex h-full w-full flex-grow justify-center align-middle">
 		{#if chosenPhoto}
 			<!-- we need to set the chosen photo -->
 			<img src="data:image/jpg;base64, {chosenPhoto}" alt="chosen" class="	" />
 		{:else}
-			<p class="text-red-500">No photo chosen</p>
-			<Button on:click={takePicture}>Take picture</Button>
+			<div class="flex h-full flex-col justify-center">
+				<p class="justify-center text-2xl font-semibold text-red-500">No photo chosen</p>
+				<Button on:click={takePicture} class="max-w-96 text-2xl font-semibold"
+					>Take picture <CameraIcon class="ml-2" /></Button
+				>
+			</div>
 		{/if}
 	</div>
 	{#if chosenPhoto}

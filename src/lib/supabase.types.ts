@@ -18,7 +18,7 @@ export type Database = {
           id: string
         }
         Insert: {
-          accepted: boolean
+          accepted?: boolean
           created_at?: string
           friend_1: string
           friend_2: string
@@ -277,21 +277,27 @@ export type Database = {
       }
       transactions: {
         Row: {
+          completed: boolean
           created_at: string
           id: string
           name: string
+          paid: boolean | null
           payer: string
         }
         Insert: {
+          completed?: boolean
           created_at?: string
           id?: string
           name: string
+          paid?: boolean | null
           payer: string
         }
         Update: {
+          completed?: boolean
           created_at?: string
           id?: string
           name?: string
+          paid?: boolean | null
           payer?: string
         }
         Relationships: [
