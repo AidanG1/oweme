@@ -1,4 +1,5 @@
 <script lang="ts">
+	import * as Avatar from '$lib/components/ui/avatar'
 	interface FriendCardProps {
 		name: string
 	}
@@ -10,5 +11,5 @@
 		<Avatar.Image src="https://github.com/shadcn.png" alt="shadcn img" />
 		<Avatar.Fallback>CN</Avatar.Fallback>
 	</Avatar.Root>
-	<p class="my-auto">Name</p>
+	<p class="my-auto">{name}</p>
 </div>
