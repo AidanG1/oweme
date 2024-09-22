@@ -25,8 +25,10 @@
 	}
 
 	let chosenPhoto: string = $state('')
+	let submitted = $state(false)
 
 	const submitPhoto = async () => {
+		submitted = true
 		// first upload to the bucket and then send the url to the function
 		console.log('submitting photo')
 
@@ -142,14 +144,55 @@
 			<Button
 				on:click={takePicture}
 				class="grow justify-start text-2xl font-bold text-primary hover:text-white"
-				variant="ghost">Retake</Button
+				variant="ghost"
+				disabled={submitted}>Retake</Button
 			>
 			<Button
 				on:click={submitPhoto}
 				class="bg-transparent text-2xl font-bold text-primary hover:text-white"
+				disabled={submitted}
 			>
-				Use Photo
+				{#if submitted}
+					Submitting <div class="lds-dual-ring"></div>
+				{:else}
+					Use Photo
+				{/if}
 			</Button>
 		</div>
 	{/if}
 </div>
+
+<style>
+	.lds-dual-ring {
+		/* change color here */
+		color: #1c4c5b;
+	}
+	.lds-dual-ring,
+	.lds-dual-ring:after {
+		box-sizing: border-box;
+	}
+	.lds-dual-ring {
+		display: inline-block;
+		width: 80px;
+		height: 80px;
+	}
+	.lds-dual-ring:after {
+		content: ' ';
+		display: block;
+		width: 64px;
+		height: 64px;
+		margin: 8px;
+		border-radius: 50%;
+		border: 6.4px solid currentColor;
+		border-color: currentColor transparent currentColor transparent;
+		animation: lds-dual-ring 1.2s linear infinite;
+	}
+	@keyframes lds-dual-ring {
+		0% {
+			transform: rotate(0deg);
+		}
+		100% {
+			transform: rotate(360deg);
+		}
+	}
+</style>
