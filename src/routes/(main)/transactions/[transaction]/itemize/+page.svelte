@@ -1,9 +1,14 @@
 <script lang="ts">
-	import { selectedEmails, selectedFriends } from '$lib/stores.svelte'
-	import { Button } from '$lib/components/ui/button'
-	import { Label } from '$lib/components/ui/label'
-	import Checkbox from '$lib/components/ui/checkbox/checkbox.svelte'
+	import * as Avatar from '$lib/components/ui/avatar'
+	import { Button } from '$lib/components/ui/button/index.js'
+	import { type CarouselAPI } from '$lib/components/ui/carousel/context.js'
+	import * as Carousel from '$lib/components/ui/carousel/index.js'
+	import { Checkbox } from '$lib/components/ui/checkbox/index.js'
+	import Label from '$lib/components/ui/label/label.svelte'
+	import { Progress } from '$lib/components/ui/progress/index.js'
+	import { Separator } from '$lib/components/ui/separator/index.js'
 	import { supabase } from '$lib/db'
+	import { selectedEmails } from '$lib/stores.svelte'
 
 	// Add to item_users table
 	$selectedEmails.push('a@gmail.com')
@@ -98,9 +103,9 @@
 			})
 			let rand_add = []
 			while (rand_add.length < 10000 - basis_points_per_person * item.splitters.length) {
-				let r = Math.floor(Math.random() * (item.splitters.length));
-    			if(rand_add.indexOf(r) === -1) {
-					rand_add.push(r);
+				let r = Math.floor(Math.random() * item.splitters.length)
+				if (rand_add.indexOf(r) === -1) {
+					rand_add.push(r)
 					item.splitters[r].amount_basis_points += 1
 				}
 			}
@@ -127,9 +132,92 @@
 			return
 		}
 	}
+
+	let api: CarouselAPI | undefined = $state()
+	let currSelected = $state(0)
+
+	// stuff happens everytime something changes in the thing
+	$effect(() => {
+		if (api) {
+			api.on('select', (e) => {
+				// console.log(e.slidesInView())
+				currSelected = api?.selectedScrollSnap()!
+
+				console.log('changed carousel things')
+				console.log(api?.selectedScrollSnap())
+				// do something on select
+			})
+		}
+	})
+	console.log(api?.selectedScrollSnap())
+	console.log(owers)
+	let num_separators = items_split.length - 1
+	let separator_num = 0
+	let increment_sep_num = () => {
+		separator_num++
+	}
+	let val = 1
 </script>
 
-<h2>Itemize Receipt</h2>
+<!-- <div class="m-20 w-full"> -->
+<Carousel.Root bind:api class="m-auto flex h-20 w-96 items-center justify-center">
+	<Carousel.Content>
+		{#each owers as ower}
+			<Carousel.Item>
+				<Carousel.Content class="relative z-10 flex h-full items-center justify-center">
+					<div class="flex flex-col">
+						<Avatar.Root class="mx-auto">
+							<Avatar.Image src="https://github.com/shadcn.png" alt="shadcn img" />
+							<Avatar.Fallback>CN</Avatar.Fallback>
+						</Avatar.Root>
+						<p>{ower.email}</p>
+					</div>
+				</Carousel.Content>
+			</Carousel.Item>
+		{/each}
+	</Carousel.Content>
+	<Carousel.Previous class="absolute left-0 z-20" />
+	<Carousel.Next class="absolute right-0 z-20" />
+</Carousel.Root>
+<Progress value={currSelected + 1} max={owers.length} class="rounded-none" />
+<Separator />
+<div class="m-5 flex flex-col gap-3">
+	{#each items_split as item, i}
+		<div class="flex w-full gap-1.5">
+			<Checkbox
+				id="items-label-{i}"
+				checked={item.splitters.map((pers) => pers.email).includes(owers[currSelected].email)}
+				onCheckedChange={(e) => {
+					if (e) {
+						item.splitters.push({ email: owers[currSelected].email })
+					} else {
+						item.splitters = item.splitters.filter(
+							(splitter) => splitter.email !== owers[currSelected].email
+						)
+					}
+				}}
+				aria-labelledby="items-label"
+			/>
+			<Label
+				id="items"
+				for="items-label-{i}"
+				class="text-md font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
+			>
+				{item.name}
+			</Label>
+		</div>
+		<!-- this is the most disgusting thing i've done in my life -->
+		{#if separator_num < num_separators}
+			<Separator />
+			{increment_sep_num()}
+		{/if}
+	{/each}
+	<div class="flex">
+		<Button on:click={submit_itemization} class="mx-auto">Submit</Button>
+	</div>
+</div>
+<!-- </div> -->
+<!-- <h2>Itemize Receipt</h2>
 {#each owers as ower}
 	{#if ower.active}
 		<Button
@@ -154,9 +242,9 @@
 			next
 		</Button>
 		<Button on:click={submit_itemization}>Done</Button>
-		<!-- View from pov one friend -->
+		 View from pov one friend 
 		{#each items_split as item}
-			<!-- Display all items -->
+			 Display all items 
 			<div class="flex w-full gap-1.5">
 				<Checkbox
 					id="items"
@@ -177,9 +265,8 @@
 				>
 					{item.name}
 					{ower.email}
-					<!-- Grok my best friend is here he is happy and living a very satisfied life as a AI model getting to help people every day. -->
 				</Label>
 			</div>
 		{/each}
 	{/if}
-{/each}
+{/each} -->
