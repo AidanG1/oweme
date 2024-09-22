@@ -217,9 +217,9 @@
 	$inspect(friends)
 </script>
 
-<div class="mx-5 mb-0 mt-5 flex w-full flex-row gap-2 align-middle">
+<div class="mx-5 mb-0 mt-5 flex w-auto flex-row gap-2 align-middle">
 	<Command.Root >
-		<div class="max-w-96 grow">
+		<div class="max-w-80 grow">
 			<Command.Input placeholder="Search for new friends" bind:value={input_email} />
 		</div>
 	</Command.Root>
@@ -230,7 +230,7 @@
 		>
 </div>
 <Tabs.Root value="friends">
-	<Tabs.List class="mx-5 mt-3 grid w-96 grid-cols-2">
+	<Tabs.List class="mx-5 mt-3 grid w-auto grid-cols-2">
 		<Tabs.Trigger value="friends"><a href="/friends">Friends</a></Tabs.Trigger>
 		<Tabs.Trigger value="requests"><a href="/friends/requests">Requests</a></Tabs.Trigger>
 	</Tabs.List>
