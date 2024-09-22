@@ -49,6 +49,7 @@
 	import { supabase } from '$lib/db.js'
 	import { toasts } from '$lib/toasts.svelte'
 	import { sesh } from '$lib/auth.svelte'
+	import { Badge } from '$lib/components/ui/badge/index.js'
 
 	let { data } = $props()
 
@@ -218,21 +219,27 @@
 </script>
 
 <div class="mx-5 mb-0 mt-5 flex w-auto flex-row gap-2 align-middle">
-	<Command.Root >
+	<Command.Root>
 		<div class="max-w-80 grow">
 			<Command.Input placeholder="Search for new friends" bind:value={input_email} />
 		</div>
 	</Command.Root>
 	<Button
-			on:click={() => {
-				sendRequest(prof.id, input_email)
-			}}>Request</Button
-		>
+		on:click={() => {
+			sendRequest(prof.id, input_email)
+		}}>Request</Button
+	>
 </div>
 <Tabs.Root value="friends">
 	<Tabs.List class="mx-5 mt-3 grid w-auto grid-cols-2">
 		<Tabs.Trigger value="friends"><a href="/friends">Friends</a></Tabs.Trigger>
-		<Tabs.Trigger value="requests"><a href="/friends/requests">Requests</a></Tabs.Trigger>
+		<Tabs.Trigger value="requests">
+			<a href="/friends/requests"
+				>Requests {#if friends.filter((f) => !f.accepted).length > 0}<Badge
+						>{friends.filter((f) => !f.accepted).length}</Badge
+					>{/if}</a
+			>
+		</Tabs.Trigger>
 	</Tabs.List>
 	<Tabs.Content value="friends">
 		{#each friends as friend}
