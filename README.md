@@ -44,8 +44,6 @@ For most of the team this was a completely new tech stack forcing us to learn qu
 
 ---
 
-### create-svelte
-
 ## Commands
 ```bash
 bun run update-types --project-id veaseskfycpcrozeqgib
