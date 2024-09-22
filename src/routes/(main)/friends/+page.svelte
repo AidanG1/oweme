@@ -126,6 +126,10 @@
 						<Button on:click={() => {
 							rejectRequest(friend.friend_1.id, friend.friend_2.id)
 							friends.splice(i, 1)
+							toasts.addToast({
+								type: 'error',
+								message: 'Friend request rejected'
+							})
 						}} variant="destructive">x</Button>
 						<Button on:click={() => {
 							acceptRequest(friend.friend_1.id, friend.friend_2.id)
