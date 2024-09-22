@@ -42,6 +42,7 @@
 		"@capacitor/core": "^6.1.2",
 		"@capacitor/ios": "^6.1.2",
 		"@fontsource-variable/inter": "^5.1.0",
+		"@ionic/pwa-elements": "^3.3.0",
 		"@supabase/supabase-js": "^2.45.4",
 		"bits-ui": "^0.21.15",
 		"clsx": "^2.1.1",

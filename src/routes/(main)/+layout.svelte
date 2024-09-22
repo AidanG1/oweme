@@ -28,9 +28,9 @@
 			<Menubar.Menu>
 				<Menubar.Trigger class="font-sans"><SquarePlus /></Menubar.Trigger>
 				<Menubar.Content>
-					<Menubar.Item><a href="/receipt/manual">Input Manually</a></Menubar.Item>
+					<Menubar.Item><a href="/add/manual">Input Manually</a></Menubar.Item>
 					<Menubar.Separator />
-					<Menubar.Item><a href="/receipt/upload">Upload from Photo</a></Menubar.Item>
+					<Menubar.Item><a href="/add/photo">Upload from Photo</a></Menubar.Item>
 				</Menubar.Content>
 			</Menubar.Menu>
 			<Separator orientation="vertical" />
