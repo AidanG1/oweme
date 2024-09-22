@@ -33,11 +33,16 @@ function userSession() {
 		},
 		setSession,
 		makeSession,
-		forceGetSession
+		forceGetSession,
 	}
 }
 
 export const sesh = userSession()
+
+export type ProfileUpdate = {
+	venmo?: string
+	name?: string
+}
 
 function userProfile() {
 	let profile: Tables<'profiles'> | null = $state(null)
@@ -55,11 +60,6 @@ function userProfile() {
 		}
 		profile = data
 		return data
-	}
-
-	type ProfileUpdate = {
-		venmo?: string
-		name?: string
 	}
 
 	async function updateProfile(profileUpdate: ProfileUpdate) {

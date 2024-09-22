@@ -3,8 +3,12 @@
 	import * as Menubar from '$lib/components/ui/menubar/index.js'
 	import Contact from 'lucide-svelte/icons/contact'
 	import House from 'lucide-svelte/icons/house'
-	import Settings from 'lucide-svelte/icons/settings'
 	import SquarePlus from 'lucide-svelte/icons/square-plus'
+	import Settings from '$lib/components/Settings.svelte'
+
+	import { profile } from '$lib/auth.svelte'
+
+	let { data } = $props()
 </script>
 
 <slot></slot>
@@ -32,7 +36,8 @@
 			<Separator orientation="vertical" />
 			<a href="/social" class="my-auto"><Contact /></a>
 			<Separator orientation="vertical" />
-			<a href="/settings" class="my-auto"><Settings /></a>
+			<!-- open the sheet -->
+			<span class="my-auto"><Settings {profile} /></span>
 		</div>
 	</Menubar.Root>
 </nav>
