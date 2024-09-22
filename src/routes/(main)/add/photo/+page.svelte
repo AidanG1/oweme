@@ -111,7 +111,6 @@
 
 	import { Camera, CameraResultType } from '@capacitor/camera'
 	import { onMount } from 'svelte'
-	import { ChevronRight } from 'lucide-svelte'
 
 	const takePicture = async () => {
 		const image = await Camera.getPhoto({
@@ -140,23 +139,25 @@
 	})
 </script>
 
-<div class="h-[84vh] flex justify-center flex-col">
-	<div class="flex-grow">
+<div class="flex h-[84vh] flex-col justify-center">
+	<div class="flex flex-grow flex-col justify-center">
 		{#if $chosenPhoto}
 			<!-- we need to set the chosen photo -->
-			<Button on:click={takePicture}>Retake picture</Button>
-			<img src={$chosenPhoto} alt="chosen" />
+			<img src={$chosenPhoto} alt="chosen" class="	" />
 		{:else}
 			<p class="text-red-500">No photo chosen</p>
 			<Button on:click={takePicture}>Take picture</Button>
 		{/if}
 	</div>
-	<div class="flex justify-center">
-		<Button
-			on:click={submitPhoto}
-			class="bg-transparent text-2xl font-bold text-primary hover:text-white"
-		>
-			Submit picture <ChevronRight />
-		</Button>
-	</div>
+	{#if $chosenPhoto}
+		<div class="flex justify-center">
+			<Button on:click={takePicture} class="grow text-2xl font-bold text-primary hover:text-white justify-start" variant="ghost">Retake</Button>
+			<Button
+				on:click={submitPhoto}
+				class="bg-transparent text-2xl font-bold text-primary hover:text-white"
+			>
+				Use Photo
+			</Button>
+		</div>
+	{/if}
 </div>
