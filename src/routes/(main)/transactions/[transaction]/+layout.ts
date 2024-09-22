@@ -2,6 +2,8 @@ import { logInCheck } from '$lib/auth.svelte'
 import { supabase } from '$lib/db'
 import { error as SKerror } from '@sveltejs/kit'
 
+export const prerender = false
+
 export const load = async ({ params }) => {
     await logInCheck()
 
