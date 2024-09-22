@@ -4,7 +4,7 @@
 	import * as Command from '$lib/components/ui/command/index.js'
 	import { Label } from '$lib/components/ui/label/index.js'
 	import { Switch } from '$lib/components/ui/switch/index.js'
-	import { Users } from 'lucide-svelte'
+	import Users from 'lucide-svelte/icons/users'
 
 	let { payerData, owerData, email } = $page.data.props
 	console.log(payerData)

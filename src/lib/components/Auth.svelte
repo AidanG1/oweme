@@ -64,7 +64,7 @@
 </script>
 
 <div class="h-1/4"></div>
-<h1 class="m-16 text-center text-4xl">Log In</h1>
+<h1 class="m-16 text-center text-4xl">OweMe Log In</h1>
 
 {#if show_alert}
 	<Alert.Root variant={alertHeader === 'Error' ? 'destructive' : 'default'} class="m-6 w-96">
@@ -128,7 +128,7 @@
 	</form>
 {/if}
 {#if !pinShowing}
-	<div class="m-6 flex w-96 justify-center">
+	<div class="p-6 flex w-96 justify-center">
 		<form onsubmit={handleLogin} class="w-full">
 			<Label for="email">Email Address</Label>
 			<Input

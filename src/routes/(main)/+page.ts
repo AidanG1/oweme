@@ -1,9 +1,12 @@
-import { sesh } from '$lib/auth.svelte'
+import { sesh, userIdOrRedirect } from '$lib/auth.svelte'
 import { supabase } from '$lib/db'
 import { error as SKerror } from '@sveltejs/kit'
 
 export async function load({ params }) {
 	const session = await sesh.forceGetSession()
+
+	await userIdOrRedirect()
+
 	const id = session?.user.id
 	const email = session?.user.email
 	// const name = session?.user.name

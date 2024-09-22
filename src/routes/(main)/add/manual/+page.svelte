@@ -2,7 +2,7 @@
 	import { Button } from '$lib/components/ui/button'
 	import { Input } from '$lib/components/ui/input'
 	import { Label } from '$lib/components/ui/label'
-	import { Plus } from 'lucide-svelte'
+	import Plus from 'lucide-svelte/icons/plus'
 	import { supabase } from '$lib/db'
 	import { sesh } from '$lib/auth.svelte'
 
