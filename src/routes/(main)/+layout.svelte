@@ -8,12 +8,15 @@
 	import { sesh } from '$lib/auth.svelte'
 
 	import { profile } from '$lib/auth.svelte'
+	import PageTransition from '$lib/components/PageTransition.svelte'
 
 	let { data } = $props()
 </script>
 
 <div class="max-h-screen overflow-y-auto">
-	<slot></slot>
+	<PageTransition url={data.pathname}>
+		<slot></slot>
+	</PageTransition>
 </div>
 <nav>
 	<Menubar.Root
