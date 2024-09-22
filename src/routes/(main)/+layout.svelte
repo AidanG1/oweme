@@ -18,13 +18,7 @@
 	>
 		<div class="container mx-auto flex h-3/4 w-full max-w-[435px] justify-between">
 			<a href="/" class="my-auto"><House /></a>
-			<!-- <Menubar.Menu>
-			<div>File</div>
-			<Menubar.Trigger>File</Menubar.Trigger> -->
-			<!-- </Menubar.Menu> -->
 			<Separator orientation="vertical" />
-			<!-- </Menubar.Separator> -->
-			<!-- <Menubar.SeparatorVertical></Menubar.SeparatorVertical> -->
 			<Menubar.Menu>
 				<Menubar.Trigger class="font-sans"><SquarePlus /></Menubar.Trigger>
 				<Menubar.Content>
@@ -34,7 +28,7 @@
 				</Menubar.Content>
 			</Menubar.Menu>
 			<Separator orientation="vertical" />
-			<a href="/social" class="my-auto"><Contact /></a>
+			<a href="/friends" class="my-auto"><Contact /></a>
 			<Separator orientation="vertical" />
 			<!-- open the sheet -->
 			<span class="my-auto"><Settings {profile} /></span>
