@@ -48,6 +48,7 @@
 	import Button from '$lib/components/ui/button/button.svelte'
 	import { supabase } from '$lib/db.js'
 	import { toasts } from '$lib/toasts.svelte'
+	import { sesh } from '$lib/auth.svelte'
 
 	let { data } = $props()
 
@@ -56,8 +57,15 @@
 	const prof = data.prof
 
 	async function rejectRequest(id1: string, id2: string) {
-		console.log('reject friend request')
-		console.log(id1)
+		// user needs to be logged in
+		if (!sesh.forceGetSession()) {
+			return
+		}
+
+		if (!sesh.session) {
+			return
+		}
+
 		const { error: rejectError } = await supabase
 			.from('friends')
 			.delete()
@@ -67,17 +75,21 @@
 			console.error(rejectError)
 			return
 		}
-		console.log('done rejection')
 	}
 
 	async function acceptRequest(id1: string, id2: string) {
-		console.log('accept friend request')
-		console.log("id1: ", id1)
-		console.log("id2: ", id2)
+		// user needs to be logged in
+		if (!sesh.forceGetSession()) {
+			return
+		}
+
+		if (!sesh.session) {
+			return
+		}
 
 		const { data: acceptData, error: acceptError } = await supabase
 			.from('friends')
-			.update({ 'accepted': true })
+			.update({ accepted: true })
 			.eq('friend_1', id1)
 			.eq('friend_2', id2)
 			.select()
@@ -85,18 +97,138 @@
 		if (acceptError) {
 			console.error(acceptError)
 			return
-		} else {
-			console.log(acceptData)
 		}
-		console.log('done accept')
 	}
+
+	let input_email: string = $state('')
+
+	async function sendRequest(from_id: string, to_email: string) {
+		// user needs to be logged in
+		if (!sesh.forceGetSession()) {
+			return
+		}
+
+		if (!sesh.session) {
+			return
+		}
+
+		console.log('TO EMAIL: ', to_email)
+
+		// If input is empty, throw error
+		if (to_email.length == 0) {
+			toasts.addToast({
+				type: 'error',
+				message: 'Please input an email address'
+			})
+			return
+		}
+		// If user is self, throw error
+		if (to_email === prof.email) {
+			toasts.addToast({
+				type: 'error',
+				message: 'Cannot send friend request to yourself!'
+			})
+			return
+		}
+
+		// If user exists with corresponding email, send request
+		const { data: profilesData, error: profilesError } = await supabase
+			.from('profiles')
+			.select('*')
+			.eq('email', to_email)
+			.limit(1)
+		if (profilesError) {
+			console.log(profilesError)
+			return
+		}
+
+		// If user with email does not exist, throw toast
+		if (profilesData.length == 0) {
+			console.log('user dne')
+			toasts.addToast({
+				type: 'error',
+				message: 'User does not exist'
+			})
+			return
+		}
+
+		console.log('user exists')
+
+		// User exists
+		const to_id = profilesData[0].id
+		console.log('to_id: ', to_id)
+		console.log('from:id: ', from_id)
+
+		// If request already exists, throw error
+		const { data: requestExistsData, error: requestExistsError } = await supabase
+			.from('friends')
+			.select(
+				`friend_1 (id, venmo, name, email),
+                friend_2 (id, venmo, name, email), 
+                accepted
+        `
+			)
+			.or(
+				`and(friend_1.eq.${to_id},friend_2.eq.${from_id}),and(friend_1.eq.${from_id},friend_2.eq.${to_id})`
+			)
+
+		if (requestExistsError) {
+			console.log(requestExistsError)
+			return
+		}
+		console.log(requestExistsData)
+		if (requestExistsData.length > 0 && !requestExistsData[0].accepted) {
+			// Note: friend relationships are limited to only one per pair
+			toasts.addToast({
+				type: 'error',
+				message: 'Request already sent'
+			})
+			return
+		} else if (requestExistsData.length > 0 && requestExistsData[0].accepted) {
+			toasts.addToast({
+				type: 'error',
+				message: 'Already friends!'
+			})
+			return
+		}
+
+		// User exists and no request sent yet, send friend request
+		const { data: sendData, error: sendError } = await supabase
+			.from('friends')
+			.insert({ friend_1: from_id, friend_2: to_id, accepted: false })
+			.select()
+
+		if (sendError) {
+			console.error(sendError)
+			return
+		}
+
+		// Reset input field
+		to_email = ''
+
+		toasts.addToast({
+			type: 'success',
+			message: 'Friend request sent!'
+		})
+	}
+
+	console.log('done send request')
 
 	$inspect(friends)
 </script>
 
-<Command.Root class="mx-5 mb-0 mt-5 w-96 rounded-md border">
-	<Command.Input placeholder="Search for new friends" />
-</Command.Root>
+<div class="mx-5 mb-0 mt-5 flex w-full flex-row gap-2 align-middle">
+	<Command.Root >
+		<div class="max-w-96 grow">
+			<Command.Input placeholder="Search for new friends" bind:value={input_email} />
+		</div>
+	</Command.Root>
+	<Button
+			on:click={() => {
+				sendRequest(prof.id, input_email)
+			}}>Request</Button
+		>
+</div>
 <Tabs.Root value="friends">
 	<Tabs.List class="mx-5 mt-3 grid w-96 grid-cols-2">
 		<Tabs.Trigger value="friends"><a href="/friends">Friends</a></Tabs.Trigger>
@@ -123,22 +255,27 @@
 						<FriendCard name={friend.friend_1.name} />
 					</div>
 					<div class="align-center flex place-items-center gap-4">
-						<Button on:click={() => {
-							rejectRequest(friend.friend_1.id, friend.friend_2.id)
-							friends.splice(i, 1)
-							toasts.addToast({
-								type: 'error',
-								message: 'Friend request rejected'
-							})
-						}} variant="destructive">x</Button>
-						<Button on:click={() => {
-							acceptRequest(friend.friend_1.id, friend.friend_2.id)
-							friend.accepted = true
-							toasts.addToast({
-								type: 'success',
-								message: 'Friend request accepted!'
-							})
-							}}>o</Button>
+						<Button
+							on:click={() => {
+								rejectRequest(friend.friend_1.id, friend.friend_2.id)
+								friends.splice(i, 1)
+								toasts.addToast({
+									type: 'error',
+									message: 'Friend request rejected'
+								})
+							}}
+							variant="destructive">x</Button
+						>
+						<Button
+							on:click={() => {
+								acceptRequest(friend.friend_1.id, friend.friend_2.id)
+								friend.accepted = true
+								toasts.addToast({
+									type: 'success',
+									message: 'Friend request accepted!'
+								})
+							}}>o</Button
+						>
 					</div>
 				</div>
 			{/if}
