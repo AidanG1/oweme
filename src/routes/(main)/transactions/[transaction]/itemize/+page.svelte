@@ -50,15 +50,8 @@
 	)
 
 	let owers_idx = 0
-	let owers: OwerActivity[] = $state(
-		$selectedEmails.map((e) => {
-			print($selectedEmails)
-			return {
-				email: e.email,
-				name: e.name
-			}
-		})
-	)
+	let owers = $state(data.transaction.selected_emails)
+	console.log("owers: ", owers)
 
 	const submit_itemization = async () => {
 		console.log('submitting itemization')
