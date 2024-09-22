@@ -1,4 +1,5 @@
 <script lang="ts">
+	import { goto } from '$app/navigation'
 	import { sesh } from '$lib/auth.svelte'
 	import { Button } from '$lib/components/ui/button'
 	import { Input } from '$lib/components/ui/input'
@@ -69,6 +70,8 @@
 			console.error(error)
 			return
 		}
+
+		goto(`/transactions/${transactionId}/friends`)
 	}
 
 	function deleteItem(index: number) {

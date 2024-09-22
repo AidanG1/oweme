@@ -1,4 +1,5 @@
 <script lang="ts">
+	import { goto } from '$app/navigation'
 	import * as Avatar from '$lib/components/ui/avatar'
 	import { Button } from '$lib/components/ui/button/index.js'
 	import { type CarouselAPI } from '$lib/components/ui/carousel/context.js'
@@ -11,6 +12,8 @@
 	import { selectedEmails } from '$lib/stores.svelte'
 
 	let { data } = $props()
+
+	const transaction_id = data.transaction_id
 
 	const items = data.items
 
@@ -105,13 +108,15 @@
 		const { data: transactionData, error: transactionError } = await supabase
 			.from('transactions')
 			.update({ completed: true })
-			.eq('id', data.transaction_id)
+			.eq('id', transaction_id)
 			.select()
 
 		if (transactionError) {
 			console.error(transactionError)
 			return
 		}
+
+		goto(`transactions/${transaction_id}/total`)
 	}
 
 	let api: CarouselAPI | undefined = $state()

@@ -8,6 +8,8 @@
 	import CircleCheck from 'lucide-svelte/icons/circle-check'
 	import { fade } from 'svelte/transition'
 
+	console.log("IN FRIENDS PAGE")
+
 	let { friendsData, id } = $page.data.props
 	let { data } = $props()
 	let transactionId = data.transaction_id
@@ -16,7 +18,6 @@
 	// data = data.items
 	console.log('Data!', friendsData)
 
-	// let friends = []
 	let friend_map: Map<number, {email:string; id:string; name:string}> = new Map()
 	let selected_map = $state(new Map())
 	for (let i = 0; i < friendsData.length; i++) {
