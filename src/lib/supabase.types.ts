@@ -283,6 +283,7 @@ export type Database = {
           name: string
           paid: boolean | null
           payer: string
+          selected_emails: string[]
         }
         Insert: {
           completed?: boolean
@@ -291,6 +292,7 @@ export type Database = {
           name: string
           paid?: boolean | null
           payer: string
+          selected_emails?: string[]
         }
         Update: {
           completed?: boolean
@@ -299,6 +301,7 @@ export type Database = {
           name?: string
           paid?: boolean | null
           payer?: string
+          selected_emails?: string[]
         }
         Relationships: [
           {

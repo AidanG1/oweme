@@ -1,5 +1,4 @@
 <script lang="ts">
-	import { selectedEmails } from '$lib/stores.svelte'
 	import * as Tabs from '$lib/components/ui/tabs'
 	import { Button } from '$lib/components/ui/button'
 	import { Trigger } from '$lib/components/ui/drawer'

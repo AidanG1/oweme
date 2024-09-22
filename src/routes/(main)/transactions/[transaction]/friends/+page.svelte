@@ -4,7 +4,6 @@
 	import FriendCard from '$lib/components/FriendCard.svelte'
 	import { Button } from '$lib/components/ui/button/index'
 	import { Input } from '$lib/components/ui/input'
-	import { selectedEmails, type User } from '$lib/stores.svelte'
 	import CircleCheck from 'lucide-svelte/icons/circle-check'
 	import { fade } from 'svelte/transition'
 
@@ -45,14 +44,14 @@
 
 	const submitEmails = () => {
 		console.log('clicked')
-		console.log($selectedEmails)
+
+		let emails: string[] = []
 		selected_map.forEach((v, k) => {
 			if (v === 1) {
-				$selectedEmails.push(friend_map.get(k))
+				emails.push(friend_map.get(k).email)
 			}
 		})
-		// Push self to selectedEmails
-		$selectedEmails.push({email:prof.email, id:prof.id, name:prof.name} as User)
+		emails.push(prof?.email)
 		goto(`/transactions/${transactionId}/itemize`)
 	}
 </script>
@@ -70,6 +69,7 @@
 			role="button"
 			on:click={() => handleClick(friend)}
 			class="flex cursor-pointer flex-row gap-4"
+			tabindex="0"
 		>
 			<div
 				class="transition-opacity duration-200 {selected_map.get(friend) === 0 ? '' : 'opacity-50'}"
