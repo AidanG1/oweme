@@ -44,7 +44,7 @@
 			</div>
 			<div class="grid grid-cols-4 items-center gap-4">
 				<Label for="venmo" class="text-right">Venmo Username</Label>
-				<Input id="venmo" bind:value={profileUpdate.name} class="col-span-3" />
+				<Input id="venmo" bind:value={profileUpdate.venmo} class="col-span-3" />
 			</div>
 		</div>
 		<Sheet.Close asChild let:builder>
