@@ -5,9 +5,9 @@ import { error as SKerror } from '@sveltejs/kit'
 export async function load({ }) {
 	const session = await sesh.forceGetSession()
 
-    if (!session) {
-        SKerror(401, 'Unauthorized')
-    }
+	if (!session) {
+		SKerror(401, 'Unauthorized')
+	}
 
 	const id = session.user.id
 
@@ -17,20 +17,23 @@ export async function load({ }) {
 	/**
 	 * These get the ones that they owe
 	 */
-	const { data, error } = await supabase
+	const { data: friendsData, error } = await supabase
 		.from('friends')
-        .select(`friend_1 (id, venmo, name, email)
+		.select(`friend_1 (id, name, email), friend_2 (id, name, email)
         `)
-        // .or(`friend_1.eq.${id},friend_2.eq.${id}`)
-        // .eq('accepted', true)
+		.or(`friend_1.eq.${id},friend_2.eq.${id}`)
+		.eq('accepted', true)
 
-    console.log('data', data)
-        
+	console.log('data', friendsData)
+
 	if (error) {
 		SKerror(500, error.message)
 	}
 
 	return {
-        friends: data
+		props: {
+			friendsData,
+			id
+		}
 	}
 }

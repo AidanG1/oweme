@@ -10,18 +10,13 @@
 	import { supabase } from '$lib/db'
 	import { selectedEmails } from '$lib/stores.svelte'
 
-	// Add to item_users table
-	$selectedEmails.push('a@gmail.com')
-	$selectedEmails.push('b@yahoo.com')
-	$selectedEmails.push('c@rice.edu')
-
 	let { data } = $props()
 
 	const items = data.items
 
 	interface OwerActivity {
 		email: string
-		active: boolean
+		name?: string
 	}
 
 	interface PersonAmount {
@@ -57,39 +52,13 @@
 
 	let owers_idx = 0
 	let owers: OwerActivity[] = $state(
-		$selectedEmails.map((email) => {
+		$selectedEmails.map((e) => {
 			return {
-				email: email,
-				active: false
+				email: e.email,
+				name: e.name
 			}
 		})
 	)
-	// Set first ower to be true
-	owers[0].active = true
-
-	// function toggle_prev(i: number) {
-	// 	if (i === 0) {
-	// 		owers[owers.length - 1].active = true
-	// 		owers[i].active = false
-	// 		owers_idx = owers.length - 1
-	// 	} else {
-	// 		owers[i - 1].active = true
-	// 		owers[i].active = false
-	// 		owers_idx -= 1
-	// 	}
-	// }
-
-	// function toggle_next(i: number) {
-	// 	if (i === owers.length - 1) {
-	// 		owers[0].active = true
-	// 		owers[i].active = false
-	// 		owers_idx = 0
-	// 	} else {
-	// 		owers[i + 1].active = true
-	// 		owers[i].active = false
-	// 		owers_idx += 1
-	// 	}
-	// }
 
 	const submit_itemization = async () => {
 		console.log('submitting itemization')
@@ -165,12 +134,12 @@
 		{#each owers as ower}
 			<Carousel.Item>
 				<Carousel.Content class="relative z-10 flex h-full items-center justify-center">
-					<div class="flex flex-col">
+					<div class="flex w-72 flex-col">
 						<Avatar.Root class="mx-auto">
 							<Avatar.Image src="https://github.com/shadcn.png" alt="shadcn img" />
 							<Avatar.Fallback>CN</Avatar.Fallback>
 						</Avatar.Root>
-						<p>{ower.email}</p>
+						<p class="mx-auto">{ower.name ? ower.name : ower.email}</p>
 					</div>
 				</Carousel.Content>
 			</Carousel.Item>
