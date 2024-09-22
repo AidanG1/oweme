@@ -5,6 +5,7 @@
 	import House from 'lucide-svelte/icons/house'
 	import SquarePlus from 'lucide-svelte/icons/square-plus'
 	import Settings from '$lib/components/Settings.svelte'
+	import { sesh } from '$lib/auth.svelte'
 
 	import { profile } from '$lib/auth.svelte'
 

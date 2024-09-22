@@ -67,29 +67,29 @@
 	// Set first ower to be true
 	owers[0].active = true
 
-	function toggle_prev(i: number) {
-		if (i === 0) {
-			owers[owers.length - 1].active = true
-			owers[i].active = false
-			owers_idx = owers.length - 1
-		} else {
-			owers[i - 1].active = true
-			owers[i].active = false
-			owers_idx -= 1
-		}
-	}
+	// function toggle_prev(i: number) {
+	// 	if (i === 0) {
+	// 		owers[owers.length - 1].active = true
+	// 		owers[i].active = false
+	// 		owers_idx = owers.length - 1
+	// 	} else {
+	// 		owers[i - 1].active = true
+	// 		owers[i].active = false
+	// 		owers_idx -= 1
+	// 	}
+	// }
 
-	function toggle_next(i: number) {
-		if (i === owers.length - 1) {
-			owers[0].active = true
-			owers[i].active = false
-			owers_idx = 0
-		} else {
-			owers[i + 1].active = true
-			owers[i].active = false
-			owers_idx += 1
-		}
-	}
+	// function toggle_next(i: number) {
+	// 	if (i === owers.length - 1) {
+	// 		owers[0].active = true
+	// 		owers[i].active = false
+	// 		owers_idx = 0
+	// 	} else {
+	// 		owers[i + 1].active = true
+	// 		owers[i].active = false
+	// 		owers_idx += 1
+	// 	}
+	// }
 
 	const submit_itemization = async () => {
 		console.log('submitting itemization')
