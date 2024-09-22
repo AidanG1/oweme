@@ -32,10 +32,15 @@ We're also proud of the design system we created using ShadCN, which makes our a
 Additionally, our app runs on and is installable on IOS, Android, and the web.
 
 ## What we learned
-
+For most of the team this was a completely new tech stack forcing us to learn quickly in order to output a final product up to our standards. We designed and implemented a complex relational table schema and imlpemented it using Postgres & Supabase. We also learned to use OpenAI API to parse the receipts with accuracy. Lastly, we learned how to convert our application written in a web-framework, Sveltekit, to a mobile app using Capacitor.
 
 ## What's next for OweMe
-
+ - Allow users to indicate when pending transactions between two users have been completed outside the application, and display it as such in the feed.
+ - Allow users to upload profile pictures
+ - Implement functioning search bars that interact with the database for friends/transactions/etc.
+ - Further integration with banking apps
+ - Recurring expense tooling
+ - Add support for international currencies and exchange rates
 
 ---
 
