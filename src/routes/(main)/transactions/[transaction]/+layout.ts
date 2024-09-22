@@ -9,6 +9,17 @@ export const load = async ({ params }) => {
 
     const transaction_id = params.transaction
 
+    const { data: transactionData, error: transactionError } = await supabase
+        .from('transactions')
+        .select('*')
+        .eq('id', transaction_id)
+        .single()
+
+    if (transactionError) {
+        console.error(transactionError)
+        return SKerror(500, 'Failed to load transaction')
+    }
+
     const { data, error } = await supabase
         .from('items')
         .select('*')
@@ -21,6 +32,7 @@ export const load = async ({ params }) => {
 
     return {
         items: data,
-        transaction_id: params.transaction
+        transaction_id: params.transaction,
+        transaction: transactionData
     }
 }

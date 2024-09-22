@@ -4,7 +4,7 @@
 	import FriendCard from '$lib/components/FriendCard.svelte'
 	import { Button } from '$lib/components/ui/button/index'
 	import { Input } from '$lib/components/ui/input'
-	import { selectedEmails, type User } from '$lib/stores.svelte'
+	import { supabase } from '$lib/db'
 	import CircleCheck from 'lucide-svelte/icons/circle-check'
 	import { fade } from 'svelte/transition'
 
@@ -44,16 +44,31 @@
 		selected_map = new Map(selected_map)
 	}
 
-	const submitEmails = () => {
+	const submitEmails = async () => {
 		console.log('clicked')
-		console.log($selectedEmails)
+
+		let emails: string[] = []
 		selected_map.forEach((v, k) => {
 			if (v === 1) {
-				$selectedEmails.push(friend_map.get(k))
+				emails.push(friend_map.get(k).email)
 			}
 		})
-		// Push self to selectedEmails
-		$selectedEmails.push({email:prof.email, id:prof.id, name:prof.name} as User)
+		emails.push(prof?.email)
+
+		// update the transaction with the selected emails
+		const { data, error } = await supabase
+			.from('transactions')
+			.update({ selected_emails: emails })
+			.eq('id', transactionId)
+			.select()
+
+		if (error) {
+			console.error(error)
+			return
+		}
+
+		console.log('updated transaction emails', data)
+
 		goto(`/transactions/${transactionId}/itemize`)
 	}
 </script>
@@ -71,11 +86,12 @@
 			role="button"
 			on:click={() => handleClick(friend)}
 			class="flex cursor-pointer flex-row gap-4"
+			tabindex="0"
 		>
 			<div
 				class="transition-opacity duration-200 {selected_map.get(friend) === 0 ? '' : 'opacity-50'}"
 			>
-				<FriendCard name={friend_map.get(friend).name} />
+				<FriendCard name={friend_map.get(friend).name} avatar={friend_map.get(friend).avatar_url} />
 			</div>
 			{#if selected_map.get(friend) === 1}
 				<div transition:fade={{ duration: 200 }} class="my-auto ml-auto">
