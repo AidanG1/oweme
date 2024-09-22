@@ -56,6 +56,7 @@
 	let owers_idx = 0
 	let owers: OwerActivity[] = $state(
 		$selectedEmails.map((e) => {
+			print($selectedEmails)
 			return {
 				email: e.email,
 				name: e.name
@@ -116,7 +117,7 @@
 			return
 		}
 
-		goto(`transactions/${transaction_id}/total`)
+		goto(`/transactions/${transaction_id}/total`)
 	}
 
 	let api: CarouselAPI | undefined = $state()

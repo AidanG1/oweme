@@ -7,8 +7,8 @@
 	import Users from 'lucide-svelte/icons/users'
 
 	let { payerData, owerData, email } = $page.data.props
-	console.log(payerData)
-	console.log(owerData)
+	console.log("payerdata: ", payerData)
+	console.log("owerdata: ", owerData)
 	interface FeedCardProps {
 		name: string
 		description: string
@@ -48,41 +48,6 @@
 		}
 		feedcards.push(feedcardProp)
 	}
-
-	// let feedcards = [
-	// 	{
-	// 		name: 'Franklin',
-	// 		description: 'Pizza',
-	// 		time: new Date(),
-	// 		price: 50.0,
-	// 		incoming: true,
-	// 		resolved: true
-	// 	},
-	// 	{
-	// 		name: 'Aidan',
-	// 		description: 'Vegetable',
-	// 		time: new Date(),
-	// 		price: 10.0,
-	// 		incoming: false,
-	// 		resolved: false
-	// 	},
-	// 	{
-	// 		name: 'Nat',
-	// 		description: 'Borger',
-	// 		time: oneDayAgo,
-	// 		price: 50.0,
-	// 		incoming: false,
-	// 		resolved: false
-	// 	},
-	// 	{
-	// 		name: 'Yimo',
-	// 		description: 'Taco',
-	// 		time: new Date(),
-	// 		price: 20.0,
-	// 		incoming: true,
-	// 		resolved: false
-	// 	}
-	// ]
 
 	feedcards.sort((a, b) => {
 		// First, sort by resolved status
