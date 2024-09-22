@@ -26,6 +26,6 @@
 	<Tabs.Content value="friends">
 		
 	</Tabs.Content>
-</Tabs.Root>
+</Tabs.Root> -->
 
 <slot></slot>

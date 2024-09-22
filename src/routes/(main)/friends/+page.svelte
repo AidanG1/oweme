@@ -47,6 +47,7 @@
 	import FriendCard from '$lib/components/FriendCard.svelte'
 	import Button from '$lib/components/ui/button/button.svelte'
 	import { supabase } from '$lib/db.js'
+	import { toasts } from '$lib/toasts.svelte'
 
 	let { data } = $props()
 
@@ -89,6 +90,8 @@
 		}
 		console.log('done accept')
 	}
+
+	$inspect(friends)
 </script>
 
 <Command.Root class="mx-5 mb-0 mt-5 w-96 rounded-md border">
@@ -101,11 +104,11 @@
 	</Tabs.List>
 	<Tabs.Content value="friends">
 		{#each friends as friend}
-			{#if friend.friend_1.id != prof.id && friend.accepted == true}
+			{#if friend.friend_1.id != prof.id && friend.accepted}
 				<div class="m-5">
 					<FriendCard name={friend.friend_1.name} />
 				</div>
-			{:else if friend.friend_2.id != prof.id && friend.accepted == true}
+			{:else if friend.friend_2.id != prof.id && friend.accepted}
 				<div class="m-5">
 					<FriendCard name={friend.friend_2.name} />
 				</div>
@@ -123,11 +126,14 @@
 						<Button on:click={() => {
 							rejectRequest(friend.friend_1.id, friend.friend_2.id)
 							friends.splice(i, 1)
-							friends.push(friend)
 						}} variant="destructive">x</Button>
 						<Button on:click={() => {
 							acceptRequest(friend.friend_1.id, friend.friend_2.id)
-							friends.splice(i, 1)
+							friend.accepted = true
+							toasts.addToast({
+								type: 'success',
+								message: 'Friend request accepted!'
+							})
 							}}>o</Button>
 					</div>
 				</div>

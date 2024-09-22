@@ -42,9 +42,9 @@
 					</div>
 				</div>
 				<Button
-					variant="destructive"
+					variant="ghost"
 					on:click={() => toasts.removeToast(toast.id)}
-					class="ml-2 border-2 border-red-950 draw"
+					class="ml-2 border-2 draw"
 				>
 					<X />
 				</Button>
