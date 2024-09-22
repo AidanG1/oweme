@@ -89,11 +89,11 @@
 	{#each items as item, index (index)}
 		<div transition:slide={{ duration: 300 }} class="mb-4">
 			<form class="flex items-end">
-				<div class="mr-4 flex w-full max-w-sm flex-col gap-1.5">
+				<div class="mr-4 flex w-full flex-col gap-1.5">
 					<Label for="item_name_{index}">Item name</Label>
 					<Input id="item_name_{index}" required bind:value={item.name} />
 				</div>
-				<div class="flex w-full max-w-sm flex-col gap-1.5">
+				<div class="flex w-full flex-col gap-1.5">
 					<div class="flex flex-row">
 						<Label for="price_{index}">Price</Label>
 						<Button

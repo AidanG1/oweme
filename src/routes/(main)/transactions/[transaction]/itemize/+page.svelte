@@ -50,7 +50,7 @@
 	)
 
 	let owers_idx = 0
-	let owers = $state(data.transaction.selected_emails)
+	let owers = $state(data.itemize_transaction.selected_emails)
 	console.log("owers: ", owers)
 
 	const submit_itemization = async () => {
@@ -126,9 +126,14 @@
 			return
 		}
 
+		let fbe: {[key: string]: Tables<'profiles'>} = {}
+
+
 		profiles?.forEach((profile) => {
-			friendsByEmail[profile.email] = profile
+			fbe[profile.email] = profile
 		})
+
+		friendsByEmail = fbe
 	}
 
 	onMount(async () => {
