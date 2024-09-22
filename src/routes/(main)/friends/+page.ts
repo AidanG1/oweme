@@ -14,9 +14,9 @@ export async function load({ params }) {
         .from("friends")
         .select(
             `created_at, accepted, friend_1 (
-                name, email, id
+                name, email, id, avatar_url
             ), friend_2 (
-                name, email, id
+                name, email, id, avatar_url
             )`
         )
         .or(`friend_1.eq.${id},friend_2.eq.${id}`)

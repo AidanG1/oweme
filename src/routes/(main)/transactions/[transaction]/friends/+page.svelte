@@ -91,7 +91,7 @@
 			<div
 				class="transition-opacity duration-200 {selected_map.get(friend) === 0 ? '' : 'opacity-50'}"
 			>
-				<FriendCard name={friend_map.get(friend).name} />
+				<FriendCard name={friend_map.get(friend).name} avatar={friend_map.get(friend).avatar_url} />
 			</div>
 			{#if selected_map.get(friend) === 1}
 				<div transition:fade={{ duration: 200 }} class="my-auto ml-auto">
