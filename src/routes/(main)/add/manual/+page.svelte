@@ -1,9 +1,11 @@
 <script lang="ts">
+	import { goto } from '$app/navigation'
 	import { sesh } from '$lib/auth.svelte'
 	import { Button } from '$lib/components/ui/button'
 	import { Input } from '$lib/components/ui/input'
 	import { Label } from '$lib/components/ui/label'
 	import { supabase } from '$lib/db'
+	import { toasts } from '$lib/toasts.svelte'
 	import Plus from 'lucide-svelte/icons/plus'
 	import X from 'lucide-svelte/icons/x'
 	import { slide } from 'svelte/transition'
@@ -31,7 +33,10 @@
 		// verify that all items have a name and price
 		for (let i = 0; i < items.length; i++) {
 			if (!items[i].name || !items[i].price) {
-				console.error('Item is missing name or price')
+				toasts.addToast({
+					type: 'error',
+					message: 'Please fill out all item names and prices'
+				})
 				return
 			}
 		}
@@ -65,6 +70,8 @@
 			console.error(error)
 			return
 		}
+
+		goto(`/transactions/${transactionId}/friends`)
 	}
 
 	function deleteItem(index: number) {
@@ -98,7 +105,16 @@
 							<X class="h-4 w-4" />
 						</Button>
 					</div>
-					<Input id="item_price_{index}" required bind:value={item.price} />
+					<span class="flex items-center gap-1 font-semibold">
+						$<Input
+							id="item_price_{index}"
+							required
+							bind:value={item.price}
+							type="number"
+							min="0.00"
+							step="0.01"
+						/>
+					</span>
 				</div>
 			</form>
 		</div>
@@ -112,6 +128,11 @@
 		>
 			<Plus />
 		</Button>
-		<Button class="" type="submit" on:click={submit_transaction}>Submit Item List</Button>
+		<Button
+			class=""
+			type="submit"
+			on:click={submit_transaction}
+			disabled={items.length === 0 || !transaction_name}>Submit Item List</Button
+		>
 	</div>
 </div>

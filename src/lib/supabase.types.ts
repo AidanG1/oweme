@@ -18,7 +18,7 @@ export type Database = {
           id: string
         }
         Insert: {
-          accepted: boolean
+          accepted?: boolean
           created_at?: string
           friend_1: string
           friend_2: string
@@ -198,6 +198,7 @@ export type Database = {
       }
       profiles: {
         Row: {
+          avatar_url: string
           email: string
           id: string
           name: string | null
@@ -205,6 +206,7 @@ export type Database = {
           venmo: string | null
         }
         Insert: {
+          avatar_url?: string
           email?: string
           id: string
           name?: string | null
@@ -212,6 +214,7 @@ export type Database = {
           venmo?: string | null
         }
         Update: {
+          avatar_url?: string
           email?: string
           id?: string
           name?: string | null
@@ -277,22 +280,31 @@ export type Database = {
       }
       transactions: {
         Row: {
+          completed: boolean
           created_at: string
           id: string
           name: string
+          paid: boolean | null
           payer: string
+          selected_emails: string[]
         }
         Insert: {
+          completed?: boolean
           created_at?: string
           id?: string
           name: string
+          paid?: boolean | null
           payer: string
+          selected_emails?: string[]
         }
         Update: {
+          completed?: boolean
           created_at?: string
           id?: string
           name?: string
+          paid?: boolean | null
           payer?: string
+          selected_emails?: string[]
         }
         Relationships: [
           {

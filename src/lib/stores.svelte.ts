@@ -15,9 +15,9 @@ import { writable, type Writable } from "svelte/store"
 
 // export const chosenPhoto = writable<string>('')
 
-export interface User {
-    name?: string
-    email: string
-}
+// export interface User {
+//     name?: string
+//     email: string
+// }
 
-export const selectedEmails: Writable<User[]> = writable([]) // this is the friends for the current transaction
+// export const selectedEmails: Writable<User[]> = writable([]) // this is the friends for the current transaction

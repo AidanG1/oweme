@@ -218,7 +218,7 @@
 	$inspect(friends)
 </script>
 
-<div class="mx-5 mb-0 mt-5 flex w-auto flex-row gap-2 align-middle">
+<div class="mx-5 mb-0 mt-5 flex w-auto flex-row gap-2 items-center">
 	<Command.Root>
 		<div class="max-w-80 grow">
 			<Command.Input placeholder="Search for new friends" bind:value={input_email} />
@@ -245,11 +245,11 @@
 		{#each friends as friend}
 			{#if friend.friend_1.id != prof.id && friend.accepted}
 				<div class="m-5">
-					<FriendCard name={friend.friend_1.name} />
+					<FriendCard name={friend.friend_1.name} avatar={friend.friend_1.avatar_url} />
 				</div>
 			{:else if friend.friend_2.id != prof.id && friend.accepted}
 				<div class="m-5">
-					<FriendCard name={friend.friend_2.name} />
+					<FriendCard name={friend.friend_2.name} avatar={friend.friend_2.avatar_url} />
 				</div>
 			{/if}
 		{/each}
@@ -259,7 +259,7 @@
 			{#if friend.friend_2.id == prof.id && !friend.accepted}
 				<div class="flex">
 					<div class="m-5 flex flex-grow">
-						<FriendCard name={friend.friend_1.name} />
+						<FriendCard name={friend.friend_1.name} avatar={friend.friend_1.avatar_url} />
 					</div>
 					<div class="align-center flex place-items-center gap-4">
 						<Button
