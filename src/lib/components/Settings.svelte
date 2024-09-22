@@ -27,7 +27,7 @@
 
 <Sheet.Root>
 	<Sheet.Trigger asChild let:builder>
-		<Button builders={[builder]} variant="outline"><Settings /></Button>
+		<Button builders={[builder]} variant="ghost"><Settings /></Button>
 	</Sheet.Trigger>
 	<Sheet.Content side="right">
 		<Sheet.Header>

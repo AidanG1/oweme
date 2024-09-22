@@ -16,7 +16,7 @@
 	<Menubar.Root
 		class="fixed bottom-0 left-0 right-0 flex h-20 justify-between rounded-none border-l-0 border-r-0 border-t-2"
 	>
-		<div class="container mx-auto flex h-3/4 w-full max-w-[435px] justify-between">
+		<div class="container mx-auto flex w-full max-w-[435px] justify-between">
 			<a href="/" class="my-auto"><House /></a>
 			<Separator orientation="vertical" />
 			<Menubar.Menu>
