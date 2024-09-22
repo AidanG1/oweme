@@ -11,7 +11,9 @@
 	let { data } = $props()
 </script>
 
-<slot></slot>
+<div class="max-h-screen overflow-y-auto">
+	<slot></slot>
+</div>
 <nav>
 	<Menubar.Root
 		class="fixed bottom-0 left-0 right-0 flex h-20 justify-between rounded-none border-l-0 border-r-0 border-t-2"

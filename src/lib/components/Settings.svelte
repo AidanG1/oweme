@@ -1,12 +1,12 @@
 <script lang="ts">
-	import * as Sheet from '$lib/components/ui/sheet/index.js'
 	import { Button } from '$lib/components/ui/button/index.js'
 	import { Input } from '$lib/components/ui/input/index.js'
 	import { Label } from '$lib/components/ui/label/index.js'
-	import Settings from 'lucide-svelte/icons/settings'
-	import * as Dialog from '$lib/components/ui/dialog'
-	import { type ProfileUpdate } from '$lib/auth.svelte'
 	import { toasts } from '$lib/toasts.svelte'
+	import { type ProfileUpdate } from '$lib/auth.svelte'
+	import * as Dialog from '$lib/components/ui/dialog'
+	import * as Sheet from '$lib/components/ui/sheet/index.js'
+	import Settings from 'lucide-svelte/icons/settings'
 
 	let {
 		profile
@@ -14,7 +14,7 @@
 		profile: typeof import('$lib/auth.svelte').profile
 	} = $props()
 
-	let profileUpdate: ProfileUpdate = {}
+	let profileUpdate: ProfileUpdate = $state({})
 
 	// initially the profile update object to existing profile information
 	profileUpdate = {
@@ -33,7 +33,8 @@
 		<Sheet.Header>
 			<Sheet.Title>Edit profile</Sheet.Title>
 			<Sheet.Description>
-				Make changes to your profile here. Click save when you're done.
+				Make changes to your profile here. Click save when you're done. You are logged in as {profile
+					.profile?.email}
 			</Sheet.Description>
 		</Sheet.Header>
 		<div class="grid gap-4 py-4">
