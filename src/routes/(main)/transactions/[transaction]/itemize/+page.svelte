@@ -9,6 +9,8 @@
 	import { Progress } from '$lib/components/ui/progress/index.js'
 	import { Separator } from '$lib/components/ui/separator/index.js'
 	import { supabase } from '$lib/db'
+	import type { Tables } from '$lib/supabase.types'
+	import { onMount } from 'svelte'
 
 	let { data } = $props()
 
@@ -109,7 +111,30 @@
 	let api: CarouselAPI | undefined = $state()
 	let currSelected = $state(0)
 
-	// stuff happens everytime something changes in the thing
+	let friendsByEmail: {[key: string]: Tables<'profiles'>} = $state({})
+
+	async function fetchFriends() {
+		// query profiles for each email
+		const { data: profiles, error: profilesError } = await supabase
+			.from('profiles')
+			.select('*')
+			.in('email', owers)
+
+		if (profilesError) {
+			console.error(profilesError)
+			return
+		}
+
+		profiles?.forEach((profile) => {
+			friendsByEmail[profile.email] = profile
+		})
+	}
+
+	onMount(async () => {
+		await fetchFriends()
+	})
+
+	// stuff happens every time something changes in the thing
 	$effect(() => {
 		if (api) {
 			api.on('select', (e) => {
@@ -122,6 +147,7 @@
 			})
 		}
 	})
+
 	// console.log(api?.selectedScrollSnap())
 	console.log(owers)
 	let num_separators = items_split.length - 1
@@ -136,14 +162,23 @@
 <Carousel.Root bind:api class="m-auto flex h-20 w-auto items-center justify-center">
 	<Carousel.Content>
 		{#each owers as ower}
+			{@const gotFriend = friendsByEmail[ower]}
 			<Carousel.Item>
 				<Carousel.Content class="relative z-10 flex h-full items-center justify-center">
 					<div class="flex w-72 flex-col">
 						<Avatar.Root class="mx-auto">
-							<Avatar.Image src="https://github.com/shadcn.png" alt="shadcn img" />
-							<Avatar.Fallback>CN</Avatar.Fallback>
+							{#if gotFriend}
+								<Avatar.Image src={gotFriend?.avatar_url} alt="ower img" />
+							{:else}
+								<Avatar.Fallback>{ower[0]}</Avatar.Fallback>
+							{/if}
+							<!-- <Avatar.Fallback>CN</Avatar.Fallback> -->
 						</Avatar.Root>
-						<p class="mx-auto">{ower}</p>
+						{#if gotFriend}
+							<p class="mx-auto">{gotFriend.name ? gotFriend.name : ower}</p>
+						{:else}
+							<p class="mx-auto">{ower}</p>
+						{/if}
 					</div>
 				</Carousel.Content>
 			</Carousel.Item>
