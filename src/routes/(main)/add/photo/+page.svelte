@@ -1,8 +1,9 @@
 <script lang="ts">
-	import { chosenPhoto } from '$lib/stores.svelte'
+	// import { chosenPhoto } from '$lib/stores.svelte'
 	import { Button } from '$lib/components/ui/button'
 	import { sesh } from '$lib/auth.svelte'
 	import { supabase } from '$lib/db'
+	import { decode } from 'base64-arraybuffer'
 
 	const url = 'https://veaseskfycpcrozeqgib.supabase.co/functions/v1/scan-receipt'
 
@@ -23,27 +24,41 @@
 		items: Item[]
 	}
 
+	let chosenPhoto: string = $state('')
+
 	const submitPhoto = async () => {
 		// first upload to the bucket and then send the url to the function
+		console.log('submitting photo')
 
-		if (!$chosenPhoto) {
+		console.log('chosen photo has length', chosenPhoto.length)
+
+		if (!chosenPhoto) {
+			console.log('no photo chosen')
 			return
 		}
 
 		if (!sesh.session) {
+			console.log('no session')
 			return
 		}
 
 		const random = Math.random().toString(36).substring(7)
 
-		const { data, error } = await supabase.storage.from('receipts').upload(random, $chosenPhoto, {
-			upsert: false
-		})
+		const { data, error } = await supabase.storage
+			.from('receipts')
+			.upload(random, decode(chosenPhoto), {
+				upsert: false,
+				contentType: 'image/jpeg'
+			})
 
 		if (error) {
 			console.error(error)
 			return
 		}
+
+		console.log(data)
+
+		const basePath = 'https://veaseskfycpcrozeqgib.supabase.co/storage/v1/object/public/receipts/'
 
 		const result = await fetch(
 			'https://veaseskfycpcrozeqgib.supabase.co/functions/v1/scan-receipt',
@@ -56,107 +71,80 @@
 				},
 				body: JSON.stringify({
 					type: 'link',
-					image_url: data.fullPath
+					image_url: basePath + data.path
 				})
 			}
 		)
 
-		const json: Schema = await result.json()
+		const json: {
+			res: Schema
+			transactionData: Tables<'transactions'>
+		} = await result.json()
 
-		// now want to make 1. transaction 2. receipt 3. items
+		console.log(json)
 
-		const { data: transactionData, error: transactionError } = await supabase
-			.from('transactions')
-			.insert({
-				name: json.name,
-				payer: sesh.session.user.id
-			})
-			.select('id')
-			.single()
+		const transaction_id = json.transactionData.id
 
-		if (transactionError) {
-			console.error(transactionError)
-			return
-		}
-
-		const { data: receiptData, error: receiptError } = await supabase.from('receipts').insert({
-			transaction: transactionData.id,
-			url: json.url,
-			tip_cents: json.tip_cents,
-			total_cents: json.total_cents,
-			tax_cents: json.tax_cents,
-			subtotal_cents: json.subtotal_cents
-		})
-
-		if (receiptError) {
-			console.error(receiptError)
-			return
-		}
-
-		const json_items = json.items.map((item) => ({
-			transaction: transactionData.id,
-			name: item.full_name,
-			amount_cents: item.total_cents
-		}))
-
-		const { data: itemsData, error: itemsError } = await supabase.from('items').insert(json_items)
-
-		if (itemsError) {
-			console.error(itemsError)
-			return
-		}
-
-		console.log('done')
+		goto(`/transactions/${transaction_id}/friends`)
 	}
 
 	import { Camera, CameraResultType } from '@capacitor/camera'
 	import { onMount } from 'svelte'
-	import { ChevronRight } from 'lucide-svelte'
+	import type { Tables } from '$lib/supabase.types'
+	import { goto } from '$app/navigation'
 
 	const takePicture = async () => {
 		const image = await Camera.getPhoto({
 			quality: 90,
 			allowEditing: true,
-			resultType: CameraResultType.Uri
+			resultType: CameraResultType.Base64
 		})
 
 		// image.webPath will contain a path that can be set as an image src.
 		// You can access the original file using image.path, which can be
 		// passed to the Filesystem API to read the raw data of the image,
 		// if desired (or pass resultType: CameraResultType.Base64 to getPhoto)
-		var imageUrl = image.webPath
+		var imageUrl = image.base64String
 
 		// Can be set to the src of an image now
-		$chosenPhoto = imageUrl ?? ''
+		chosenPhoto = imageUrl ?? ''
+
+		console.log('set chosen photo to length', chosenPhoto.length)
 
 		// also want to close the camera
 		// await Camera.close()
 	}
 
 	onMount(() => {
-		if (!$chosenPhoto) {
+		if (!chosenPhoto) {
 			takePicture()
 		}
 	})
 </script>
 
-<div class="h-[84vh] flex justify-center flex-col">
-	<div class="flex-grow">
-		{#if $chosenPhoto}
+<div class="flex h-[84vh] flex-col justify-center">
+	<div class="flex flex-grow flex-col justify-center">
+		{#if chosenPhoto}
 			<!-- we need to set the chosen photo -->
-			<Button on:click={takePicture}>Retake picture</Button>
-			<img src={$chosenPhoto} alt="chosen" />
+			<img src="data:image/jpg;base64, {chosenPhoto}" alt="chosen" class="	" />
 		{:else}
 			<p class="text-red-500">No photo chosen</p>
 			<Button on:click={takePicture}>Take picture</Button>
 		{/if}
 	</div>
-	<div class="flex justify-center">
-		<Button
-			on:click={submitPhoto}
-			class="bg-transparent text-2xl font-bold text-primary hover:text-white"
-		>
-			Submit picture <ChevronRight />
-		</Button>
-	</div>
+	{#if chosenPhoto}
+		<div class="flex justify-center">
+			<Button
+				on:click={takePicture}
+				class="grow justify-start text-2xl font-bold text-primary hover:text-white"
+				variant="ghost">Retake</Button
+			>
+			<Button
+				on:click={submitPhoto}
+				class="bg-transparent text-2xl font-bold text-primary hover:text-white"
+			>
+				Use Photo
+			</Button>
+		</div>
+	{/if}
 </div>

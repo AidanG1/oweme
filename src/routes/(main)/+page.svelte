@@ -97,7 +97,7 @@
 
 <main>
 	<div class="m-5 flex flex-row justify-between">
-		<Command.Root class="mr-5 w-72 rounded-md border">
+		<Command.Root class="mr-5 rounded-md border">
 			<Command.Input placeholder="Search for transaction..." />
 		</Command.Root>
 		<div class="flex items-center space-x-2">

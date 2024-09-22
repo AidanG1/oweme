@@ -13,7 +13,7 @@ import { writable, type Writable } from "svelte/store"
 // 	}
 // }
 
-export const chosenPhoto = writable<string>('')
+// export const chosenPhoto = writable<string>('')
 
 interface Users {
     name?: string

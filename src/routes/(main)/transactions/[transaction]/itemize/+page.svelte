@@ -129,7 +129,7 @@
 </script>
 
 <!-- <div class="m-20 w-full"> -->
-<Carousel.Root bind:api class="m-auto flex h-20 w-96 items-center justify-center">
+<Carousel.Root bind:api class="m-auto flex h-20 w-auto items-center justify-center">
 	<Carousel.Content>
 		{#each owers as ower}
 			<Carousel.Item>
